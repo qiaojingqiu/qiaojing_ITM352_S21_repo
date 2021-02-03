@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./products_style.css">
     <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Tangerine">
+    <style id="localstyle"></style>
 
 </head>
 <body>
@@ -40,6 +41,9 @@
     </section>
 </main></div>
 <h1>Your One Stop Phone Shop</h1>
+
+<input id='speedSlider' type='range' min=".1" max="5" step=".1" style="direction: rtl;" onchange="localstyle.innerHTML = '.rotate img {animation-duration: ' + speedSlider.value + 's;}';">
+
 
 </body>
 </html>
