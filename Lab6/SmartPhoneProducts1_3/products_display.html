@@ -11,7 +11,6 @@
     <script>
         var store_name = "QiaoJing Qiu";
 
-
     </script>    
     <h1>
         <script>
@@ -25,56 +24,50 @@
 <body>
    	
     <div><main> 
-    <section class="item" onmousemove="
-        spins=spins+1; hits_span.innerHTML = hits;
+    <section class="item" 
+    onmousemove="
+        spins +=2;
         spins_span.innerHTML = spins;
-        this.className = 'item rotate';" onclick=" hits=hits+1;
+        this.className = 'item rotate';" 
+    onclick=" 
+        hits +=2;
         hits_span.innerHTML = hits;
-        spins_span.innerHTML = spins;
         this.className = 'item';"> 
         <h2>HTC</h2> 
         <p>&dollar; 40.00</p>
         <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg">
     </section>,
     <section class="item" onmousemove="
-        hits_span.innerHTML = hits;
-        spins_span.innerHTML = spins;
+        spins_span.innerHTML = ++spins;
         this.className = 'item rotate';" onclick="
-        hits_span.innerHTML = hits;
-        spins_span.innerHTML = spins;
+        hits_span.innerHTML = ++hits;
         this.className = 'item';"> 
         <h2>Apple</h2> 
         <p>&dollar; 75.00</p>
         <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/iphone-3gs.jpg">
     </section>,
     <section class="item" onmousemove="
-        hits_span.innerHTML = hits;
-        spins_span.innerHTML = spins;
+        spins_span.innerHTML = ++spins;
         this.className = 'item rotate';" onclick="
-        hits_span.innerHTML = hits;
-        spins_span.innerHTML = spins;
+        hits_span.innerHTML = ++hits;
         this.className = 'item';"> 
         <h2>Nokia</h2> 
         <p>&dollar; 35.00</p>
         <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Nokia.jpg">
     </section>,
     <section class="item" onmousemove="
-        hits_span.innerHTML = hits;
-        spins_span.innerHTML = spins;
+        spins_span.innerHTML = ++spins;
         this.className = 'item rotate';" onclick="
-        hits_span.innerHTML = hits;
-        spins_span.innerHTML = spins;
+        hits_span.innerHTML = ++hits;
         this.className = 'item';"> 
         <h2>Samsung</h2> 
         <p>&dollar; 45.00</p>
         <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg">
     </section>,
     <section class="item" onmousemove="
-        hits_span.innerHTML = hits;
-        spins_span.innerHTML = spins;
+        spins_span.innerHTML = ++spins;
         this.className = 'item rotate';" onclick="
-        hits_span.innerHTML = hits;
-        spins_span.innerHTML = spins;
+        hits_span.innerHTML = ++hits;
         this.className = 'item';"> 
         <h2>Blackberry</h2> 
         <p>&dollar; 10.00</p>
@@ -92,7 +85,7 @@
 </html>
 <script>
 
-    var hits = 10;
-    var spins = 100;
+    var hits = 0;
+    var spins = 0;
 
 </script>
