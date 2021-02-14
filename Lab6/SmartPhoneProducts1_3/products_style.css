@@ -3,13 +3,17 @@ body {
     background-image: url(./Images/Picture.png);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 800px;
+    background-size: 1000px;
 }
 /* Typography */  
-h1,h2 {
+h1 {
     text-align: center;
-    font-family: "Tangerine";
-    text-shadow: 4px 4px 4px slategray;
+    font-family: "Droid Sans";
+    background-color: white;
+}
+h2 {
+  text-align: center;
+  font-family: "Tangerine";
 }
 body {
     width: 800px; 

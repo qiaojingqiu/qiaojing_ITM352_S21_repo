@@ -6,68 +6,114 @@
     <title>Document</title>
     <link rel="stylesheet" href="./products_style.css">
     <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Tangerine">
+    href="https://fonts.googleapis.com/css?family=Tangerine|serif|Droid+Sans">
     <style id="localstyle"></style>
     <script>
         var store_name = "QiaoJing Qiu";
-
+        var first_name = "QiaoJing";
+        var last_name = "Qiu";
     </script>    
     <h1>
         <script>
-        document.write(store_name);
-    </script>'s Used Smart Phone Store</h1>
+        document.write ((first_name.bold() + " " + last_name.italics() + "'s" + "<br>").fontsize(45)); 
+    </script> 
+    Used Smart Phone Store</h1>
     <p style="text-align: center; font-weight: bold;">
         Hits:<span id="hits_span">0</span>
         Spins:<span id="spins_span">0</span>
+        Hit/Spin:<span id="hit_spin_span">0</span>
+        You suck:<span id="suck_span"></span>
         </p>
+
 </head>
+
+<script>
+
+    var hits = 0;
+    var spins = 0;
+    
+</script>
+
 <body>
    	
     <div><main> 
     <section class="item" 
     onmousemove="
-        spins +=2;
-        spins_span.innerHTML = spins;
-        this.className = 'item rotate';" 
+        spins= ++spins;
+        spins_span.innerHTML = spins.toFixed(2);
+        this.className = 'item rotate'; 
+        hit_spin_span.innerHTML = spins_span.innerHTML;
+        suck_span.innerHTML = hits/spins >0.5;"
     onclick=" 
         hits +=2;
-        hits_span.innerHTML = hits;
+        hits_span.innerHTML = hits.toFixed(2);
+        hit_spin_span.innerHTML = hits_span.innerHTML;
+
+        suck_span.innerHTML = hits/spins >0.5;
         this.className = 'item';"> 
         <h2>HTC</h2> 
         <p>&dollar; 40.00</p>
         <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg">
     </section>,
     <section class="item" onmousemove="
-        spins_span.innerHTML = ++spins;
-        this.className = 'item rotate';" onclick="
-        hits_span.innerHTML = ++hits;
+        spins= ++spins;
+        spins_span.innerHTML = spins.toFixed(2);
+        this.className = 'item rotate';
+        hit_spin_span.innerHTML = spins_span.innerHTML;
+        suck_span.innerHTML = hits/spins >0.5;" 
+        onclick="
+        hits +=2;
+        hits_span.innerHTML = hits.toFixed(2);
+        hit_spin_span.innerHTML = hits_span.innerHTML;
+        suck_span.innerHTML = hits/spins >0.5;
         this.className = 'item';"> 
         <h2>Apple</h2> 
         <p>&dollar; 75.00</p>
         <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/iphone-3gs.jpg">
     </section>,
     <section class="item" onmousemove="
-        spins_span.innerHTML = ++spins;
-        this.className = 'item rotate';" onclick="
-        hits_span.innerHTML = ++hits;
+        spins= ++spins;
+        spins_span.innerHTML = spins.toFixed(2);
+        this.className = 'item rotate';
+        hit_spin_span.innerHTML = spins_span.innerHTML;
+        suck_span.innerHTML = hits/spins >0.5;" 
+        onclick="
+        hits +=2;
+        hits_span.innerHTML = hits.toFixed(2);
+        hit_spin_span.innerHTML = hits_span.innerHTML;
+        suck_span.innerHTML = hits/spins >0.5;
         this.className = 'item';"> 
         <h2>Nokia</h2> 
         <p>&dollar; 35.00</p>
         <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Nokia.jpg">
     </section>,
     <section class="item" onmousemove="
-        spins_span.innerHTML = ++spins;
-        this.className = 'item rotate';" onclick="
-        hits_span.innerHTML = ++hits;
+        spins= ++spins;
+        spins_span.innerHTML = spins.toFixed(2);
+        this.className = 'item rotate';
+        hit_spin_span.innerHTML = spins_span.innerHTML;
+        suck_span.innerHTML = hits/spins >0.5;" 
+        onclick="
+        hits +=2;
+        hits_span.innerHTML = hits.toFixed(2);
+        hit_spin_span.innerHTML = hits_span.innerHTML;
+        suck_span.innerHTML = hits/spins >0.5;
         this.className = 'item';"> 
         <h2>Samsung</h2> 
         <p>&dollar; 45.00</p>
         <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg">
     </section>,
     <section class="item" onmousemove="
-        spins_span.innerHTML = ++spins;
-        this.className = 'item rotate';" onclick="
-        hits_span.innerHTML = ++hits;
+        spins= ++spins;
+        spins_span.innerHTML = spins.toFixed(2);
+        this.className = 'item rotate';
+        hit_spin_span.innerHTML = spins_span.innerHTML;
+        suck_span.innerHTML = hits/spins >0.5;" 
+        onclick="
+        hits +=2;
+        hits_span.innerHTML = hits.toFixed(2);
+        hit_spin_span.innerHTML = hits_span.innerHTML;
+        suck_span.innerHTML = hits/spins >0.5;
         this.className = 'item';"> 
         <h2>Blackberry</h2> 
         <p>&dollar; 10.00</p>
@@ -80,12 +126,23 @@
 
 <input id='speedSlider' type='range' min=".1" max="5" step=".1" style="direction: rtl;" onchange="localstyle.innerHTML = '.rotate img {animation-duration: ' + speedSlider.value + 's;}';">
 
+<script>
+    var line = 1;
+    var now = new Date();
+</script>
+
+<table border="1" style="margin-left: auto; margin-right: auto; text-align: center;">
+<script>
+    document.write(`    
+    <tr><th colspan="2"><h1>Your One Stop For Used Phones - ${first_name.charAt(0)}.${last_name.charAt(0)}.'s</h1></th></tr>
+    <tr><td>${line}.</td><td><br />Copyright @ ${first_name + " " + last_name}</td></tr>
+    <tr><td>${line+=1}.</td><td>${now.getFullYear()}</td></tr>
+    <tr><td>${line+=1}.</td><td>${now.getHours()+":" + now.getMinutes()} ${now.getHours()<12?'AM':'PM'}</td></tr>
+`);
+</script>
+</table>
+
+
 
 </body>
 </html>
-<script>
-
-    var hits = 0;
-    var spins = 0;
-
-</script>
