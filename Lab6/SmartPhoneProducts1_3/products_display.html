@@ -29,7 +29,6 @@
         Spins:<span id="spins_span">0</span>
         Hit/Spin:<span id="hit_spin_span">0</span>
         You suck:<span id="suck_span"></span>
-        You win:<span id="win_span">pending...</span>
         </p>
 
 </head>
@@ -128,7 +127,7 @@
 <input id='speedSlider' type='range' min=".1" max="5" step=".1" style="direction: rtl;" onchange="localstyle.innerHTML = '.rotate img {animation-duration: ' + speedSlider.value + 's;}';">
 
 <script>
-    var line = 1;
+    var line = 0;
     var now = new Date();
 </script>
 
@@ -136,9 +135,9 @@
 <script>
     document.write(`    
     <tr><th colspan="2"><h1>Your One Stop For Used Phones - ${first_name[0] + "." + last_name[0] + ".'s"}</h1></th></tr>
-    <tr><td>${line}.</td><td><br />Copyright @ ${first_name + " " + last_name}</td></tr>
-    <tr><td>${line+=1}.</td><td>${now.getFullYear()}</td></tr>
-    <tr><td>${line+=1}.</td><td>${now.getHours()+":" + now.getMinutes()} ${now.getHours()<12?'AM':'PM'}</td></tr>
+    <tr><td>${++line}.</td><td><br />Copyright @ ${first_name + " " + last_name}</td></tr>
+    <tr><td>${++line}.</td><td>${now.getFullYear()}</td></tr>
+    <tr><td>${++line}.</td><td>${(now.getHours() + 11) % 12 + 1 + ":" + now.getMinutes() + " " + ((now.getHours() < 12)?'AM':'PM')}</td></tr>
 `);
 </script>
 </table>

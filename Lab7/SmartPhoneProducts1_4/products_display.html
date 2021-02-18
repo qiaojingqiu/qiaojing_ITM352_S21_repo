@@ -12,6 +12,7 @@
         var store_name = "QiaoJing Qiu";
         var first_name = "QiaoJing";
         var last_name = "Qiu";
+        var over_half = false;
     </script>    
     <center>
     <span style="font-size: 600%;">     
@@ -50,11 +51,17 @@
         spins_span.innerHTML = spins.toFixed(2);
         this.className = 'item rotate'; 
         hit_spin_span.innerHTML = Number(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
-        suck_span.innerHTML = hits/spins >0.5;"
+        suck_span.innerHTML = hits/spins >0.5;
+        win_span.innerHTML = ((hits/spins >= 0.5) && (hits < spins));
+        over_half ||= ((hits/spins >= 0.5) && (hits < spins));
+        suck_span.innerHTML = over_half;"
     onclick=" 
         hits +=2;
         hits_span.innerHTML = hits.toFixed(2);
         suck_span.innerHTML = hits/spins >0.5;
+        win_span.innerHTML = ((hits/spins >= 0.5) && (hits < spins));
+        over_half ||= ((hits/spins >= 0.5) && (hits < spins));
+        suck_span.innerHTML = over_half;
         this.className = 'item';"> 
         <h2>HTC</h2> 
         <p>&dollar; 40.00</p>
@@ -128,7 +135,7 @@
 <input id='speedSlider' type='range' min=".1" max="5" step=".1" style="direction: rtl;" onchange="localstyle.innerHTML = '.rotate img {animation-duration: ' + speedSlider.value + 's;}';">
 
 <script>
-    var line = 1;
+    var line = 0;
     var now = new Date();
 </script>
 
@@ -136,9 +143,9 @@
 <script>
     document.write(`    
     <tr><th colspan="2"><h1>Your One Stop For Used Phones - ${first_name[0] + "." + last_name[0] + ".'s"}</h1></th></tr>
-    <tr><td>${line}.</td><td><br />Copyright @ ${first_name + " " + last_name}</td></tr>
-    <tr><td>${line+=1}.</td><td>${now.getFullYear()}</td></tr>
-    <tr><td>${line+=1}.</td><td>${now.getHours()+":" + now.getMinutes()} ${now.getHours()<12?'AM':'PM'}</td></tr>
+    <tr><td>${++line}.</td><td><br />Copyright @ ${first_name + " " + last_name}</td></tr>
+    <tr><td>${++line}.</td><td>${now.getFullYear()}</td></tr>
+    <tr><td>${++line}.</td><td>${now.getHours()+":" + now.getMinutes()} ${now.getHours()<12?'AM':'PM'}</td></tr>
 `);
 </script>
 </table>
