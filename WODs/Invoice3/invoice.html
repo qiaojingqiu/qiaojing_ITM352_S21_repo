@@ -1,0 +1,194 @@
+<script>
+/*This is an invoice*/
+// Product Data
+     // Product 1
+     var item1 = 'Gillette Sensor 3 Razor';
+     var quantity1 = 2;
+     var price1 = 1.23;
+     // Product 2
+     var item2 = 'Barbasol Shaving Cream';
+     var quantity2 = 1;
+     var price2 = 2.64;
+     // Product 3
+     var item3 = 'GNautica Cologne';
+     var quantity3 = 1;
+     var price3 = 6.17;
+     // Product 4
+     var item4 = 'Rubbing Alcohol';
+     var quantity4 = 3;
+     var price4 = 0.98;
+     // Product 5
+     var item5 = 'Colgate Classic Toothbrush';
+     var quantity5 = 12;
+     var price5 = 1.89;
+
+// Compute extended price
+  var subtotal = 0;
+
+// Compute shipping
+    var shipping = " ";
+    if (subtotal < 50) {
+      shipping = 2
+    } else if (subtotal < 100) {
+      shipping = 5
+    } else {
+      shipping = 0.05 * subtotal // 5% of subtotal
+    }
+
+
+// Compute grand total
+    var total = tax + subtotal + shipping;
+
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <table border="2">
+        <tbody>
+          <tr>
+            <th style="text-align: center;" width="43%">Item</th>
+            <th style="text-align: center;" width="11%">quantity</th>
+            <th style="text-align: center;" width="13%">price</th>
+            <th style="text-align: center;" width="54%">extended price</th>
+          </tr>
+        <script>
+          var extended_price = price1 * quantity1;
+          subtotal += extended_price;
+        </script>
+
+        <script>
+        document.write(`  
+          <tr>
+            <td width="43%">${item1}</td>
+            <td align="center" width="11%">${quantity1}</td>
+            <td align="center" width="13%">$${price1}</td>
+            <td align="center" width="54%">$${extended_price}</td>
+          </tr>
+        `);  
+        </script> 
+        <script>
+          var extended_price = price2 * quantity2;
+          subtotal += extended_price;
+        </script>
+        <script>
+        document.write(`  
+        <tr>
+            <td width="43%">${item2}</td>
+            <td align="center" width="11%">${quantity2}</td>
+            <td align="center" width="13%">$${price2}</td>
+            <td align="center" width="54%">$${extended_price}</td>
+        </tr>
+        `);  
+        </script> 
+        <script>
+          var extended_price = price3 * quantity3;
+          subtotal += extended_price;
+        </script>
+        <script>
+        document.write(`  
+          <tr>
+            <td width="43%">${item3}</td>
+            <td align="center" width="11%">${quantity3}</td>
+            <td align="center" width="13%">$${price3}</td>
+            <td align="center" width="54%">$${extended_price}</td>
+          </tr>
+        `);  
+        </script> 
+        <script>
+          var extended_price = price4 * quantity4;
+          subtotal += extended_price;
+        </script>
+        <script>
+        document.write(`  
+            <tr>
+                <td width="43%">${item4}</td>
+                <td align="center" width="11%">${quantity4}</td>
+                <td align="center" width="13%">$${price4}</td>
+                <td align="center" width="54%">$${extended_price}</td>
+            </tr>
+        `);  
+        </script> 
+        <script>
+          var extended_price = price5 * quantity5;
+          subtotal += extended_price;
+        </script>
+        <script>
+        document.write(`  
+             <tr>
+                <td width="43%">${item5}</td>
+                <td align="center" width="11%">${quantity5}</td>
+                <td align="center" width="13%">$${price5}</td>
+                <td align="center" width="54%">$${extended_price}</td>
+            </tr>
+        `);  
+        </script> 
+        <script>
+        // Compute tax
+        var tax_rate = 0.0575;
+        var tax = subtotal * tax_rate;
+        // Compute grand total
+        var total = tax + subtotal + shipping;
+        </script>
+          <tr>
+            <td colspan="4" width="100%">&nbsp;</td>
+          </tr>
+         
+         <script>
+        document.write(`
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%">Sub total</td>
+            <td align="center" width="54%">$${subtotal}</td>
+          </tr>
+         `); 
+        </script> 
+        <script> 
+        document.write(`
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ ${100*tax_rate}%</span></td>
+            <td align="center" width="54%">$${tax.toFixed(2)}</td>
+          </tr>
+        `);  
+        </script>
+
+        <script>
+        document.write(`
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%">Shipping</td>
+            <td align="center" width="54%"><strong>$${shipping.toFixed(2)}</strong></td>
+          </tr>
+        `);
+        </script>
+
+        <script>
+        document.write(`
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
+            <td align="center" width="54%"><strong>$${total.toFixed(2)}</strong></td>
+          </tr>
+        `);
+        </script>
+        </tbody>
+      </table>
+
+<div> <br>
+<b>
+  OUR SHIPPING POLICY IS:
+  <ul>
+  <li>A subtotal $0 - $49.99 will be $2 shipping</li>
+  <li>A subtotal $50 - $99.99 will be $5 shipping</li>
+  <li>Subtotals over $100 will be charged 5% of the subtotal amount</li>
+  </ul>
+</b>
+</div>
+
+
+</body>
+</html>
