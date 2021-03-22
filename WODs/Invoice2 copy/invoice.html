@@ -22,6 +22,10 @@
      var quantity5 = 12;
      var price5 = 1.89;
 
+// Compute subtotal
+    var subtotal = extended_price1 + extended_price2 + extended_price3 + extended_price4 + extended_price5;
+
+
 </script>
 
 <!DOCTYPE html>
@@ -42,28 +46,14 @@
             <th style="text-align: center;" width="13%">price</th>
             <th style="text-align: center;" width="54%">extended price</th>
           </tr>
-        
+
+
         <script>
           subtotal = 0;
-          for (i=1; eval("typeof item"+i) != 'undefined'; i++) {
-            extended_price = eval("quantity"+i) * eval("price"+i);
+          for(i=1;eval("typeof item"+i) != 'undefined'; i++){
+            // product row
+            extended_price = eval("price"+i) * eval("quantity"+i);
             subtotal += extended_price;
-          // Compute tax
-          var tax_rate = 0.0575;
-              var tax = subtotal * tax_rate;
-
-          // Compute shipping
-              var shipping = " ";
-              if (subtotal < 50) {
-                shipping = 2
-              } else if (subtotal < 100) {
-                shipping = 5
-              } else {
-                shipping = 0.05 * subtotal // 5% of subtotal
-              }
-
-          // Compute grand total
-              var total = tax + subtotal + shipping;
         document.write(`  
           <tr>
             <td width="43%">${eval("item"+i)}</td>
@@ -73,9 +63,25 @@
           </tr>
         `);  
           }
+        // Compute tax
+        var tax_rate = 0.0575;
+        var tax = subtotal * tax_rate;
+
+        // Compute shipping
+        var shipping = " ";
+        if (subtotal < 50) {
+          shipping = 2
+        } else if (subtotal < 100) {
+          shipping = 5
+        } else {
+          shipping = 0.05 * subtotal // 5% of subtotal
+        }
+
+
+        // Compute grand total
+        var total = tax + subtotal + shipping;
         </script> 
         
-    
 
           <tr>
             <td colspan="4" width="100%">&nbsp;</td>
