@@ -1,4 +1,5 @@
-
+// Since require() function is only working in the server-side, change this file to JavaScript, could be modified back to JSON file later
+// List products' information in an array
 var product_array = [
     {"name": "Personal Tax Return",
    "price": 200,
