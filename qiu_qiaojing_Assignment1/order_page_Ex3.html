@@ -1,0 +1,102 @@
+<script>
+    function checkQuantityTextbox(qtyTextboxOb) {
+        var errs = isNonNegInt(qtyTextboxOb.value,true);
+        qty_textbox_message.innerHTML = errs.join(" ");
+    }
+
+    function isNonNegInt(q,returnErrors=false) {
+        if(q =='') q=0;
+    var errors = []; // assume no errors at first
+    if(Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
+    if(q < 0) errors.push('Negative value!'); // Check if it is non-negative
+    if(parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+    return returnErrors ? errors : (errors.length == 0);
+    
+    };
+
+    function displayPurchase() {
+        if(isNonNegInt(quantity_textbox.value)) {
+        document.body.innerHTML=`Thank for you for ordering ${quantity_form["quantity_textbox"]} things!`;
+    }
+}
+
+</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Preparation Web</title>
+
+</head>
+<body>
+    
+   <h1>Tax Preparation Web</h1> 
+   <h2>Welcom to our website, you may want:</h2>
+
+   <form name="quantity_form" action="display_purchase.html" method="GET">
+    <label>Quantity Desired:</label>
+    <input name='quantity_textbox' type="text" onkeyup="checkQuantityTextbox(this);">
+    <span id='qty_textbox_message'>Enter a quantity</span>
+    <br>
+    <input type="submit" value="Purchase";>
+
+
+
+   <script src = "products.js">
+    // get product information
+    </script>
+    <div>
+   <script>
+   
+       // display product information
+       for (i = 0; i < product_array.length; i++) {
+      document.write(`
+    <h2>${product_array[i].name}</h2>
+    <p>$ ${product_array[i].price}</p>
+    <p>${product_array[i].CPA_name}</p>
+    <img src="${product_array[i].image}">
+      `);
+    }
+   </script>
+    </div>
+<style>
+    body {
+        text-align: center;
+        background:ivory;
+    }
+    img {
+        border:10px soli white;
+        padding: 2px;
+        width: 200px;
+    }
+    h1 {
+        font-size: 50px;
+    }
+    h2 {
+        font-style: italic;
+    }
+    p {
+        font-size: 20px;
+        color: midnightblue;
+        font-style: italic;
+    }
+    </style>
+
+</form>
+</body>
+</html>
+
+<script>
+
+let params = (new URL(document.location)).searchParams;
+
+if(params.has('quantity_textbox')) {
+        quantity_form[`quantity_textbox`].value = params.get(`quantity_textbox`);
+        checkQuantityTextbox(quantity_form[`quantity_textbox`]);
+}
+
+
+
+</script>
