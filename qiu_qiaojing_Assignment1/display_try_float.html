@@ -52,6 +52,7 @@
    <span id='qty_textbox_message'>Please enter a quantity</span> <br>
    <span id='tax_year_textbox_message'>Please enter a tax year</span> <br><br>
 
+<form name="order_form" action="invoice_purchase.html" method="GET">
 <div class="flex-container"> 
 
 <div class="flex-child index_front_page" style="background-color:seashell;">
@@ -101,13 +102,11 @@
         <p style="background-color:grey">${product_array[i].CPA_name}</p>  
         <img src="${product_array[i].image}">
         <br>
-        <form name="quantity_form" action="" method="GET">
         <label>Quantity Desired:</label> 
-        <input name=${product_textbox_name[i]} type="text" onkeyup="checkQuantityTextbox(this);">
+        <input name=${product_textbox_name[i]} type="text" value = 0 onkeyup="checkQuantityTextbox(this);">
         <br><br>
-        <form name="quantity_form" action="" method="GET">
         <label>Tax Year:</label> 
-        <input name=${product_textbox_year[i]} type="text" onkeyup="checkTaxYearTextbox(this);">
+        <input name=${product_textbox_year[i]} type="text" value =' ' onkeyup="checkTaxYearTextbox(this);">
         <p style="color:azure; background-color:grey">${available_tax_year}</p>
         <br><br>
       `);
@@ -121,6 +120,7 @@
 </div>
 
 </div>
+</form>
 
 <style>
     body {
