@@ -1,0 +1,67 @@
+<script>
+    function isValidUsername (q, returnError=false) {
+        
+    }
+</script>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Client</title>
+</head>
+<body>
+    <h1>Tax Preparation Company</h1> 
+    <p>Welcome to <i>Tax Preparation Company</i>! <br>Please fill out the form below to register an account. <br>After you finished the registration process, this page will transfer to the login page.</p>
+    <br>
+    <div>
+    <label>Full Name</label>
+    <input name='new_client_full_name' type='text' required maxlength="4">
+    <br>
+    <label>Username:</label>
+    <input name='new_user_name' type="text" required minlength="4" maxlength="10" size='10'>
+    <br>
+    <label>Password</label>
+    <input name='new_password' type='password' required minlength="6">
+    <br>
+    <label>Confirm Password</label>
+    <input name='new_password' type='password'>
+    <br>
+    <label>Email Address</label>
+    <input name='new_email' type='text'>
+    <br><br>
+    <button style="font-size: 15px;background-color: lightgrey;">Create an account</button>
+    </div>
+<ul>
+    <li>The username should have at least 4 characters but not exceed 10 characters.</li>
+    <li>Please only input letters and numbers in the username box.</li>
+    <li>Username and email address are case insensitive.</li>
+    <li>Password is case sensitive.</li>
+</ul>
+</body>
+</html>
+<style>
+    h1 {
+        font-size: 70px;
+        text-align: center;
+        font-family: 'Courier New';
+    }
+    p {
+        font-size: 25px;
+        font-family: 'Courier New';
+    }
+    div {
+        font-size: 20px;
+        font-family: 'Courier New';
+        border: lightgrey 2px solid;
+    }
+    body {
+        background-image: url(./image/website_background.jpg);
+        text-align: center;
+        font-family: 'Courier New';
+    }
+</style>
