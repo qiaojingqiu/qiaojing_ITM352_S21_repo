@@ -54,7 +54,7 @@
    <span id='qty_textbox_message'>Please enter a quantity</span> <br>
    <span id='tax_year_textbox_message'>Please enter a tax year</span> <br><br>
 
-<form name="order_form" action="invoice_purchase.html" method="GET">
+<form name="order_form" action="login_page.html" method="GET">
 
 <!------Create a div for display purpose, to display text and order page in two separate columns-------->
 <div class="flex-container"> <!----Reference: Flexbox Methdd from 3 ways to display two divs side by side (float, flexbox, CSS grid) from coder-coder, https://coder-coder.com/display-divs-side-by-side/-->
@@ -86,7 +86,6 @@
     // get product information
 </script>
 
-<form name="quantity_form" action="invoice.html" method="GET">
 <script>
     // create an array of different input names for form
     //product_textbox_name = ['quantity_textbox_personal', 'quantity_textbox_corporate','quantity_textbox_trust','quantity_textbox_state_federal','quantity_textbox_planning'];
@@ -171,3 +170,9 @@
 
 </body>
 </html>
+
+<script>
+    function redirect() {
+        window.location.href="login_page.html";
+    }
+</script>

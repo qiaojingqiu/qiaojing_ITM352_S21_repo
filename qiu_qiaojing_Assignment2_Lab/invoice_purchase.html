@@ -1,0 +1,207 @@
+<script>
+  // To get client's order data
+  // Reference Lab 12 - Professor Daniel Port
+  let params = (new URL(document.location)).searchParams;
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Courier+New">
+    <title>Document</title>
+</head>
+<body>
+    <script src="products.js">
+        //get product information
+    </script>
+
+<table border="5">
+    <tbody>
+      <tr>
+        <th style="text-align: center;" width="30%">Service Name</th>
+        <th style="text-align: center;" width="10%">Quantity</th>
+        <th style="text-align: center;" width="10%">Unit Price</th>
+        <th style="text-align: center;" width="15%">Extended Price</th>
+        <th style="text-align: center;" width="50%">Tax Year</th>
+        <th style="text-align: center;" width="100%">Name of the CPA</th>
+      </tr>
+    
+    <script>
+    // Check client's input, make sure the final input should be a positive integer
+    // Check input number if it is an positive integet
+    // Reference - Check Positive Integet: Lab 11 - Professor Daniel Port
+    function isNonNegInt(q,returnErrors=false) {
+        if(q =='') q=0; // Client should not receive any error message if there is no input in the textbox
+        var errors = []; // assume no errors at first
+        if(Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
+        if(q < 0) errors.push('Negative value!'); // Check if it is non-negative
+        if(parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+        return returnErrors ? errors : (errors.length == 0); // If there is no error message in the array, the length should be 0, which returns back to true, the input is a positive integer
+    };
+
+    // Check client inputted tax year if it is a positive integer and matches with the updated restriction
+    function isValidYear (y,returnErrors=false) {
+        var errors = [];
+        if(y =='')  errors.push('Please enter your desired tax year!');
+        if(Number(y) != y) errors.push('Your tax year is not a number!'); 
+        if(y < 0) errors.push('Please do not enter a negative number in the tax year box!'); 
+        if(parseInt(y) != y) errors.push('Please enter an integer in the tax year box!'); 
+        return returnErrors ? errors : (errors.length == 0); 
+    }
+
+    // create an empty array for quantities
+    // create an empty array for tax year
+    let quantities = [];
+    let order_year = [];
+    // use for loop to get submitted data and push them in the array
+    for (i=0;i<product_array.length;i++) {
+      quantities[i]=params.get(`quantity${i}`);
+      order_year[i]=params.get(`tax_year${i}`);
+    }
+    
+    // set beginning subtotal to be 0
+      subtotal = 0;
+    // automative adding row function
+    // Reference Lab 12 - Professor Daniel Port
+      generate_item_rows(quantities);
+      function generate_item_rows(product_quantities_array) {
+      for (i=0; i < quantities.length; i++) {
+        if (quantities[i]==0) continue; // Skip product with 0 quantity
+        if (isNonNegInt(quantities[i]) && isValidYear(order_year[i])) { // Output product information only when the input is a valid number
+        extended_price = product_array[i].price * quantities[i]; // Calculate extended price
+        subtotal += extended_price; // Create a running subtotal
+        document.write(`  
+      <tr>
+        <td width="33%">${product_array[i].name}</td>
+        <td align="center" width="10%">${quantities[i]}</td>
+        <td align="center" width="10%">$${product_array[i].price.toFixed(2)}</td>
+        <td align="center" width="15%">$${extended_price.toFixed(2)}</td>
+        <td align="center" width="50%">${order_year[i]}</td>
+        <td align="center" width="100%">${product_array[i].CPA_name}</td>
+      </tr>
+              `); 
+            }
+        else {
+          window.location.href = "display.html"; // Redirect to the order page if the input is an invalid number
+        }
+      }
+    }
+    
+      // Compute shipping
+      var shipping = 0;
+      if (subtotal<=100) {
+        shipping = 5
+      } else if (subtotal<=1000) {
+        shipping = 20
+      } else {
+        shipping = 30
+      }
+
+      // Compute tax
+      // Reference Invoice 2 - Professor Daniel Port
+      var tax_rate = 0.045;
+          var tax = subtotal * tax_rate;
+
+      // Compute grand total
+      // Reference Invoice 2 - Professor Daniel Port
+          var total = tax + subtotal + shipping;
+
+    </script> 
+
+      <tr>
+        <td colspan="6" width="100%">&nbsp;</td>
+      </tr>
+
+
+     <script>
+       // write subtotal amount
+       // Reference Invoice 2 - Professor Daniel Port
+    document.write(`
+      <tr>
+        <td style="text-align: center;" colspan="3" width="50%">Sub total</td>
+        <td colspan="3"align="center" width="50%">$${subtotal.toFixed(2)}</td>
+      </tr>
+     `); 
+    </script> 
+    <script> 
+      // write tax amount
+      // Reference Invoice 2 - Professor Daniel Port
+    document.write(`
+      <tr>
+        <td style="text-align: center;" colspan="3" width="67%"><span>Tax @ ${100*tax_rate}%</span></td>
+        <td colspan="3"align="center" width="54%">$${tax.toFixed(2)}</td>
+      </tr>
+    `);  
+    </script>
+
+    <script>
+      // write shipping fee
+      // Reference Invoice 2 - Professor Daniel Port
+      document.write(`
+        <tr>
+          <td style="text-align: center;" colspan="3" width="50%">Shipping Fee</td>
+          <td colspan="3"align="center" width="50%">$${shipping.toFixed(2)}</td>
+        </tr>
+        `); 
+    </script> 
+
+    <script>
+      // write total charge
+      // Reference Invoice 2 - Professor Daniel Port
+    document.write(`
+      <tr>
+        <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
+        <td colspan="3"align="center" width="54%"><strong>$${total.toFixed(2)}</strong></td>
+      </tr>
+    `);
+    </script>
+    </tbody>
+  </table>
+  
+  <p>This is your invoice. <br>Thank you for selecting our company. Your order is:</p>
+  <ul>
+  <script>
+    for (i=0; i<quantities.length; i++) {
+      if (quantities[i] == 0) continue;
+      document.write(`
+      <li>${order_year[i]}: ${quantities[i]} - ${product_array[i].name}</li>
+      `)
+    }
+  </script>
+  </ul>
+
+  <p>If your have any question, please call us at (808)-123-4567. </p>
+<style>
+    th {
+        font-size: 18px;
+        font-style: italic;
+        font-family: 'Courier New';
+    }
+    p {
+        text-align: center;
+        font-size: 30px;
+        color: dimgray;
+        font-family: 'Courier New';
+    }
+    ul {
+        text-align: center;
+        font-size: 25px;
+        color: black;
+        font-style: italic;
+    }
+    table {
+        padding: 5px;
+        font-family: 'Courier New';
+    }
+    body {
+        background-image: url(./image/website_background.jpg);
+    }
+</style>
+
+
+</body>
+</html>
