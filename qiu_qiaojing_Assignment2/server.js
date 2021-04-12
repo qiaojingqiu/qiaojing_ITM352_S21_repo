@@ -15,6 +15,7 @@ app.get('/process_submit', function(request, response, next) {
 });
 
 // process login information
+// Reference Professor Daniel Port Screencast:https://www.youtube.com/watch?v=cJxLxCzL-0M
 app.post('/process_login', function(request, response, next){
     console.log(request.query)
     // Account information doesn't match with database
@@ -28,6 +29,7 @@ app.post('/process_login', function(request, response, next){
 });
 
 // process registration 
+// Reference Professor Daniel Port Screencast:https://www.youtube.com/watch?v=cJxLxCzL-0M
 app.post('/process_register', function(request, response, next){
     // After create an account, redirect to login page and let client login
     response.redirect('login_page.html?' + qs.stringify(request.query));

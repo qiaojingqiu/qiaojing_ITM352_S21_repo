@@ -24,14 +24,14 @@
         }
 
     // Check whether the confirm password is matched with the first password or not
-        function isPasswordMatch (password2TextboxOb) {
-        var password1 = document.getElementsByName("new_password1").value;
-        if (password2TextboxOb.value == password1.value) {
-            confirm_password_message.innerHTML = ' ';
+        function isPasswordMatch () {
+        var password1 = document.getElementsByName('new_password1').value;
+        var password2 = document.getElementsByName('new_password2').value;
+        if (password2 != password1) {
+            confirm_password_message.innerHTML = 'Password does not match up!';
+            return false;
         } 
-        else {
-            confirm_password_message.innerHTML = 'Password does not match up!'
-        }
+            return true;
     }
 
 
