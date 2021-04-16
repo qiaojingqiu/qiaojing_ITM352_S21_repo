@@ -32,7 +32,7 @@ app.post('/process_login', function(request, response, next){
     // Check user information database
     let username_entered = request.body['user_name'];
     let password_entered = request.body['user_password'];
-    if(typeof user_data != 'undefined') {
+    if(typeof user_data[username_entered] != 'undefined') { //Check whether the username exists or not
         if(user_data[username_entered]['password'] == password_entered) {
             response.send (`${username_entered} is logged in`);
         } else {
@@ -55,6 +55,15 @@ app.post('/process_login', function(request, response, next){
 // process registration 
 // Reference Professor Daniel Port Screencast:https://www.youtube.com/watch?v=cJxLxCzL-0M
 app.post('/process_register', function(request, response, next){
+    // Add a new user to the database
+    // Check the valiation the new information (exist or not and validation)
+    username = request.body["new_user_name"];
+    user_data[username] = {};
+    user_data[username].password = request.body["new_password1"];
+    user_data[username].email = request.body["new_email"];
+    user_data[username].name = request.body["new_client_full_name"];
+    // Save updated user data to file (DB)
+    fs.writeFileSync(user_data_file, JSON.stringify(user_data));
     // After create an account, redirect to login page and let client login
     response.redirect('login_page.html?' + qs.stringify(request.query));
 });
