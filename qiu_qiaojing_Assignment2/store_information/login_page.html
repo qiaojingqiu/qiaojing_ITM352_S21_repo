@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,14 +10,15 @@
     <title>Login Your Account</title>
 </head>
 <body>
-    <h1>Tax Preparation Company</h1> 
- <script>
+<h1>Tax Preparation Company</h1> 
+<script>
     // To keep client's input in query
     // Reference Professor Daniel Port Screencast:https://www.youtube.com/watch?v=cJxLxCzL-0M
      document.write(`<form name="login_page" action="process_login${location.search}" method="POST">`)
- </script>  
+</script>  
     <!--Ask client to login-->
     <p>To place your order, please login your account</p>
+    <span id='err_message' style="color: red;"></span>
     <div id='existing_client'>
     <label>Username:</label>
     <input name='user_name' type='text'>
@@ -61,3 +63,16 @@
         text-align: center;
     }
 </style>
+<script>
+let params = (new URL(document.location)).searchParams;
+// To keep client's input in query, this query will help the calculation in the invoice 
+// Client cannot login, display error message
+// Reference Professor Daniel Port Screencast:https://www.youtube.com/watch?v=cJxLxCzL-0M
+window.onload = function () {
+        if (params.has('uname_notexist')) {
+            document.getElementById("err_message").innerText = "Your username not exist, please create an account";
+        } else if (params.has('password_wrong')) {
+            document.getElementById("err_message").innerText = "You password is wrong, please try again";
+        }
+    }
+</script>

@@ -4,11 +4,10 @@
     function isValidFullName (fullnameTextboxOb) {  
         var letters = /^[A-Za-z]+$/;
         if(fullnameTextboxOb.value.match(letters)) {
-            full_name_message.innerHTML = ' '
+            full_name_message.innerHTML = ''
         }
         else {
             full_name_message.innerHTML = 'Please enter valid full name!';
-            return false;
         }
     }
 
@@ -17,22 +16,22 @@
         function isValidUserName (usernameTextboxOb) {
             var validinput = /^[0-9a-zA-Z]+$/;
             if (usernameTextboxOb.value.match(validinput)) {
-                user_name_message.innerHTML = ' ';
+                user_name_message.innerHTML = '';
             } else {
-                user_name_message.innerHTML = 'Please enter valid user name!'
+                user_name_message.innerHTML = 'Please enter valid user name!';
             }
         }
 
-    // Check whether the confirm password is matched with the first password or not
-        function isPasswordMatch () {
-        var password1 = document.getElementsByName('new_password1').value;
-        var password2 = document.getElementsByName('new_password2').value;
-        if (password2 != password1) {
-            confirm_password_message.innerHTML = 'Password does not match up!';
-            return false;
-        } 
-            return true;
-    }
+    // Check whether the confirm password is matched with the first password or not      
+    function isPasswordMatch () {
+        var password = document.registration_page.password.value;
+        var confirm_password = document.registration_page.confirm_password.value; 
+        if (password == confirm_password) {
+            document.getElementById("password_err").innerText = '';
+        } else {
+            document.getElementById("password_err").innerText = 'Passwords Not Match';
+        }
+        }
 
 
     // Check Email textbox input is valid or not
@@ -40,12 +39,12 @@
     function isValidEmail (emailTextboxOb) {
         var mailformet = /^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if(emailTextboxOb.value.match(mailformet)) {
-            email_message.innerHTML = ' ';
+            email_message.innerHTML = '';
         } else {
             email_message.innerHTML = 'Please enter valid email!';
         }
-    }
-
+    } 
+    
 </script>
 
 
@@ -72,7 +71,7 @@
     <!--Create an textbox for client to input information-->
     <!--Check information in each textbox if it is valid-->
     <label>Full Name</label>
-    <input name='new_client_full_name' type='text' required maxlength="30" onchange="isValidFullName(this)"><br>
+    <input name='new_client_full_name' type='text' required maxlength="30" onchange="isValidFullName(this)" ><br>
     <span id='full_name_message'></span>
     <br><br>
     <label>Username:</label>
@@ -80,17 +79,17 @@
     <span id='user_name_message'></span>
     <br><br>
     <label>Password</label>
-    <input name='new_password1' type='password' required minlength="6" >
+    <input name='password' type='password' required minlength="6">
     <br>
     <label>Confirm Password</label>
-    <input name='new_password2' type='password' required minlength="6" onchange="isPasswordMatch(this)" ><br>
-    <span id='confirm_password_message'></span>
+    <input name='confirm_password' type='password' required minlength="6" onkeyup="isPasswordMatch()"><br>
+    <span id="password_err"></span>
     <br><br>
     <label>Email Address</label>
     <input name='new_email' type='text' onchange="isValidEmail(this)"><br>
     <span id='email_message'></span>
     <br><br>
-    <input style="font-size: 15px;background-color: lightgrey;" type="submit" value="Create an account" onclick="window.location.href = 'login_page.html'">
+    <input id="submit_button" style="font-size: 15px;background-color: lightgrey;" type="submit" value="Create an account">
     </div>
 <ul>
     <li>The username should have at least 4 characters but not exceed 10 characters.</li>
@@ -126,4 +125,7 @@
         font-family: 'Courier New';
     }
 </style>
+<script>
+    
+</script>
 

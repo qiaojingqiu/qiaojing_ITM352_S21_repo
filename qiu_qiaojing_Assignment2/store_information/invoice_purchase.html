@@ -162,10 +162,12 @@
     </tbody>
   </table>
   <script>
-    document.write(`<p>Aloha, ${params.get('user_name')}! <br>This is your invoice. <br>Thank you for selecting our company. Your order is:</p>`)
+    // show client's user name and purchase information
+    document.write(`<p>Aloha, ${params.get('user_name')}! <br>Thank you, ${params.get('user_name')} for your order information, this is your invoice. <br>Thank you for selecting our company. Your order is:</p>`)
   </script>
   <ul>
   <script>
+    // skip any 0 quantity item
     for (i=0; i<quantities.length; i++) {
       if (quantities[i] == 0) continue;
       document.write(`
