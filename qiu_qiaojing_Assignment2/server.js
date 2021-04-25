@@ -54,13 +54,12 @@ app.post('/process_register', function(request, response, next){
     // Check input validation
     // push method reference: Lab 11 - Professor Daniel Port
     // Set different variable for validation checking
-    let error_message = [];
-    var letters = /^[A-Za-z]+$/;
-    var validinput = /^[0-9a-zA-Z]+$/;
-    var password = request.body['password'];
-    var mailformat = /^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    let error_message = []; // to push error message
+    var letters = /^[A-Za-z]+$/; // for full name validation
+    var validinput = /^[0-9a-zA-Z]+$/; // for username validation
+    var password = request.body['password']; // checking passwords
     var confirm_password = request.body['confirm_password']; 
-
+    var mailformat = /^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; // for email validation
     // Check full name
     if (letters.test(request.body['new_client_full_name'])) {
         // no error meessage is displayed if it returns ture
