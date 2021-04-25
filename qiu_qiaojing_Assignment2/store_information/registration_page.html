@@ -4,10 +4,12 @@
     function isValidFullName (fullnameTextboxOb) {  
         var letters = /^[A-Za-z]+$/;
         if(fullnameTextboxOb.value.match(letters)) {
-            full_name_message.innerHTML = ''
+            full_name_message.innerHTML = '';
+            return true;
         }
         else {
             full_name_message.innerHTML = 'Please enter valid full name!';
+            return false;
         }
     }
 
@@ -17,8 +19,10 @@
             var validinput = /^[0-9a-zA-Z]+$/;
             if (usernameTextboxOb.value.match(validinput)) {
                 user_name_message.innerHTML = '';
+                return true;
             } else {
                 user_name_message.innerHTML = 'Please enter valid user name!';
+                return false;
             }
         }
 
@@ -28,8 +32,10 @@
         var confirm_password = document.registration_page.confirm_password.value; 
         if (password == confirm_password) {
             document.getElementById("password_err").innerText = '';
+            return true;
         } else {
             document.getElementById("password_err").innerText = 'Passwords Not Match';
+            return false;
         }
         }
 
@@ -40,8 +46,10 @@
         var mailformet = /^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if(emailTextboxOb.value.match(mailformet)) {
             email_message.innerHTML = '';
+            return true;
         } else {
             email_message.innerHTML = 'Please enter valid email!';
+            return false;
         }
     } 
     
@@ -125,7 +133,5 @@
         font-family: 'Courier New';
     }
 </style>
-<script>
-    
-</script>
+
 

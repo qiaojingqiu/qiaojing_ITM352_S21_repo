@@ -6,12 +6,21 @@ app.use(myParser.urlencoded({extended:true}));
 var qs = require('qs');
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
+var session = require('express-session');
+
+app.use(session({secret: "ITM352 rocks!"}));
+// play with session
+app.get('/set_session', function(req,res,next) {
+    res.send(`welcome, your session ID is ${req.session.id}`)
+    next();
+});
 
 // play with cookies
 app.get('/set_cookie', function(req,res,next) {
     console.log(req.cookies);
-    let my_name = 'Hana Qiu'
-    res.cookie('my_name',my_name, {maxAge: 5000});
+    let my_name = 'Hana Qiu';
+    now = new Date();
+    res.cookie('my_name',my_name, {expire: 5000 +  now.getTime()});
     res.send(`Cookie for ${my_name} sent`)
     next();
 });
@@ -54,6 +63,12 @@ app.get('/process_submit', function(request, response, next) {
 // process login information
 // Reference Professor Daniel Port Screencast:https://www.youtube.com/watch?v=cJxLxCzL-0M
 app.post('/process_login', function(request, response, next){
+    if (typeof request.session['last_login'] != 'undefined') {
+        console.log('last login time was' + request.session['last_login']);
+    } else {
+        console.log("first time login");
+    }
+    request.session['last_login'] = Date();
     console.log(request.body)
     // Check user information database
     let username_entered = request.body['user_name'];
