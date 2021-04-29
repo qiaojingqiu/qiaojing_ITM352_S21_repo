@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Courier+New">
+    <title>Login Your Account</title>
+</head>
+<body>
+<br>
+    <!--Create a Top Navigation Bar-->
+    <!--Reference: https://www.w3schools.com/howto/howto_js_topnav.asp-->
+<div class="topnavbar">
+    <a class="homepage" href="index.html">Home</a>
+<script>
+// to change navigation bar presentation based on client's login status
+if (typeof document.cookie != 'undefined' && document.cookie != ""){ 
+// cookie exists and is not detelted
+   document.write(`
+    <a class="userlogin" onclick="cookieExpire ()" href="login_page.html">Log Out</a>
+`)} else if (document.cookie == "" || typeof document.cookie == 'undefined') {
+// cookie is deleted or undefined, client is logout
+    document.write(`
+    <a class="userlogin" href="login_page.html">Login My Account</a>
+`)};
+</script>
+    <a class="userregistration" href="registration_page.html">Create An Account</a>
+    <a class="display1" href="display_tax.html">Tax Service</a>
+    <a class="display2" href="display_cpa.html">Prepare CPA Exam</a>
+    <a class="display3" href="display_tutorial.html">Tutorial Session</a>
+    <a class="display4" href="display_consultant.html">Consultant</a>
+</div>
+
+<h1>Tax Preparation Company</h1> 
+<script>
+    // To keep client's input in query
+    // Reference Professor Daniel Port Screencast:https://www.youtube.com/watch?v=cJxLxCzL-0M
+     document.write(`<form name="login_page" action="process_login${location.search}" method="POST">`)
+</script>  
+    <!--Ask client to login-->
+<script>
+    // split username from the cookie
+    // Reference: https://www.geeksforgeeks.org/how-to-get-value-of-a-string-after-last-slash-in-javascript/
+    let firstpart = document.cookie.split('=')
+    let uname = firstpart[firstpart.length - 1];
+    if (typeof document.cookie != 'undefined' && document.cookie != "") {
+    // change display sentense based on client's login status
+    // if cookie is defined and not deleted, client is login
+    document.write(`
+    <p>Hey ${uname}! Welcome to our webpage.</p>
+    `)
+    } else if (document.cookie == "" || typeof document.cookie == 'undefined' ) {
+    // if cookie is not defined or is deleted, client is logout
+    document.write(`
+    <p>You are log out!</p>
+    `);
+    }
+</script>
+    <span id='err_message' style="color: red;"></span>
+    <div id='existing_client'>
+    <label>Username:</label>
+    <input name='user_name' type='text'>
+    <br>
+    <label>Password:</label>
+    <input name='user_password' type='password'>
+    <br>
+    <input style="font-size: 15px;" type="submit" value="Login">
+    </div>
+    <br>
+</form>    
+<script>
+    // To keep client's input in query
+    // Link to registration page
+    document.write(`
+    <p>Don't have an account?</p>
+    <a href = "registration_page.html${location.search}">
+    <button style="font-size: 15px;"><b>Create an account</b></button>
+    </a>
+    `)
+</script>  
+</body>
+</html>
+
+<style>
+    h1 {
+        font-size: 70px;
+        text-align: center;
+        font-family: 'Courier New';
+    }
+    p {
+        font-size: 25px;
+        font-family: 'Courier New';
+    }
+    div {
+        font-size: 20px;
+        font-family: 'Courier New';
+        border: lightgrey 2px solid;
+    }
+    body {
+        background-image: url(./image/website_background.jpg);
+        text-align: center;
+    }
+    /* Design the navigation bar*/
+    /* Reference: https://www.w3schools.com/howto/howto_js_topnav.asp */
+    .topnavbar {
+    background-color: lightslategrey;
+    overflow: hidden;
+    }
+    .topnavbar a {
+    float: center;
+    color: whitesmoke;
+    text-align: center;
+    padding: 14px 16px;
+    font-size: 20px;
+    }
+    .topnavbar a:hover {
+    background-color: lightsteelblue;
+    color:white;
+    }
+    .topnavbar a.userlogin {
+    background-color: lightgray;
+    color: black;
+    }
+</style>
+<script>
+let params = (new URL(document.location)).searchParams;
+// To keep client's input in query, this query will help the calculation in the invoice 
+// Client cannot login, display error message
+// Reference Professor Daniel Port Screencast:https://www.youtube.com/watch?v=cJxLxCzL-0M
+window.onload = function () {
+        if (params.has('uname_notexist')) {
+            document.getElementById("err_message").innerText = "Your username not exist, please create an account";
+        } else if (params.has('password_wrong')) {
+            document.getElementById("err_message").innerText = "You password is wrong, please try again";
+        }
+    }
+// delete cookie to log out
+// Reference: https://www.w3schools.com/js/js_cookies.asp
+function cookieExpire () {
+   document.cookie = 'userlogin=;expires = Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+   window.location.reload();
+   return;
+}
+</script>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<br>
+    <!--Create a Top Navigation Bar-->
+    <!--Reference: https://www.w3schools.com/howto/howto_js_topnav.asp-->
+<div class="topnavbar">
+    <a class="homepage" href="index.html">Home</a>
+<script>
+    // to change navigation bar presentation based on client's login status
+    if (typeof document.cookie != 'undefined' && document.cookie != ""){ 
+    // cookie exists and is not detelted
+        document.write(`
+        <a class="userlogin" onclick="cookieExpire ()">Log Out</a>
+    `)} else if (document.cookie == "" || typeof document.cookie == 'undefined') {
+    // cookie is deleted or undefined, client is logout
+        document.write(`
+        <a class="userlogin" href="login_page.html">Login My Account</a>
+    `)};
+</script>
+    <a class="userregistration" href="registration_page.html">Create An Account</a>
+    <a class="display1" href="display_tax.html">Tax Service</a>
+    <a class="display2" href="display_cpa.html">Prepare CPA Exam</a>
+    <a class="display3" href="display_tutorial.html">Tutorial Session</a>
+    <a class="display4" href="display_consultant.html">Consultant</a>
+</div>
+
+
+    <!--Creat an index page, easy to open the webpage-->
+<script>
+// change welcome based on client login status
+// split username from the cookie
+// Reference: https://www.geeksforgeeks.org/how-to-get-value-of-a-string-after-last-slash-in-javascript/
+    let firstpart = document.cookie.split('=')
+    let uname = firstpart[firstpart.length - 1];
+    if (document.cookie == "" || typeof document.cookie == 'undefined') {
+    // if client doesn't login, show regular welcome without username
+    document.write(`
+    <h1>Welcome to Tax Preparation Website!</h1>
+    `)} else if (typeof document.cookie != 'undefined' && document.cookie != "") {
+    // if clinet is login, show welcom with username
+    document.write(`
+    <h1>Hi ${uname}. Welcome to Tax Preparation Website!</h1> 
+    `)}
+</script>
+
+    <a href="./display.html">
+    <img src='./image/website_background.jpg'>
+    </a>
+    <h2>Click the image to enter our main page</h2>
+</body>
+</html>
+
+<style>
+    body {
+        text-align: center;
+        background-image: url(./image/background_image_display.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        font-family: 'Courier New';
+    }
+    img {
+        padding-bottom: 40px;
+        width: 400px;
+
+    }
+    h1 {
+        font-size: 50px;
+    }
+    h2 {
+        font-style: italic;
+    }
+    /* Design the navigation bar*/
+    /* Reference: https://www.w3schools.com/howto/howto_js_topnav.asp */
+    .topnavbar {
+    background-color: lightslategrey;
+    overflow: hidden;
+    }
+    .topnavbar a {
+    float: center;
+    color: whitesmoke;
+    text-align: center;
+    padding: 14px 16px;
+    font-size: 20px;
+    }
+    .topnavbar a:hover {
+    background-color: lightsteelblue;
+    color:white;
+    }
+    .topnavbar a.homepage {
+    background-color: lightgray;
+    color: black;
+    }
+</style>
+
+<script>
+// delete cookie to log out
+// Reference: https://www.w3schools.com/js/js_cookies.asp
+function cookieExpire () {
+   document.cookie = 'userlogin=;expires = Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+   window.location.reload();
+   return;
+}
+</script>

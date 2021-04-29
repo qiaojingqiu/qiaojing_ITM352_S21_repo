@@ -11,7 +11,8 @@ var session = require('express-session');
 app.use(session({secret: "ITM352 rocks!"}));
 // play with session
 app.get('/set_session', function(req,res,next) {
-    res.send(`welcome, your session ID is ${req.session.id}`)
+    res.send(`welcome, your session ID is ${req.session.id}`);
+    req.session.destroy();
     next();
 });
 
@@ -73,12 +74,17 @@ app.post('/process_login', function(request, response, next){
     // Check user information database
     let username_entered = request.body['user_name'];
     let password_entered = request.body['user_password'];
+    //if(typeof request.cookies['user_name']!= 'undefined') {
+       // response.send(`${request.cookies['user_name']} is already logged in`);
+       // return;
+   // }
     if(typeof user_data[username_entered] != 'undefined') { //Check whether the username exists or not
         if(user_data[username_entered]['password'] == password_entered) {
             // Successfully login
             //To separate the original purchase submit, and use this to load the invoice page in the display.html
             request.query['purchased'] = "true";
             request.query['user_name'] = request.body['user_name'];
+            response.cookie('username',username_entered);
             response.redirect('display.html?' + qs.stringify(request.query));
         } else {
             // password not matches with database, redirect to login page and ask client to try again

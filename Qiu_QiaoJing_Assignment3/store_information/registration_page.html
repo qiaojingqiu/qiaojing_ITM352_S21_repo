@@ -1,0 +1,211 @@
+<script>
+    // Check Full Name textbox input is valid or not
+    // Reference: https://www.w3resource.com/javascript/form/all-letters-field.php
+    function isValidFullName (fullnameTextboxOb) {  
+        var letters = /^[A-Za-z]+$/;
+        if(fullnameTextboxOb.value.match(letters)) {
+            full_name_message.innerHTML = '';
+            return true;
+        }
+        else {
+            full_name_message.innerHTML = 'Please enter valid full name!';
+            return false;
+        }
+    }
+
+    // Check whether the user name is valid or not
+    // Reference https://www.w3resource.com/javascript/form/letters-numbers-field.php
+        function isValidUserName (usernameTextboxOb) {
+            var validinput = /^[0-9a-zA-Z]+$/;
+            if (usernameTextboxOb.value.match(validinput)) {
+                user_name_message.innerHTML = '';
+                return true;
+            } else {
+                user_name_message.innerHTML = 'Please enter valid user name!';
+                return false;
+            }
+        }
+
+    // Check whether the confirm password is matched with the first password or not      
+    function isPasswordMatch () {
+        var password = document.registration_page.password.value;
+        var confirm_password = document.registration_page.confirm_password.value; 
+        if (password == confirm_password) {
+            document.getElementById("password_err").innerText = '';
+            return true;
+        } else {
+            document.getElementById("password_err").innerText = 'Passwords Not Match';
+            return false;
+        }
+        }
+
+
+    // Check Email textbox input is valid or not
+    // Reference: https://www.w3resource.com/javascript/form/email-validation.php
+    function isValidEmail (emailTextboxOb) {
+        var mailformet = /^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        if(emailTextboxOb.value.match(mailformet)) {
+            email_message.innerHTML = '';
+            return true;
+        } else {
+            email_message.innerHTML = 'Please enter valid email!';
+            return false;
+        }
+    } 
+    
+</script>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Client</title>
+</head>
+<body>
+    <script>
+    // To keep client's input in the query
+        document.write(`
+    <form name="registration_page" action="process_register${location.search}" method="POST">
+        `)
+    </script>  
+
+    <br>
+    <!--Create a Top Navigation Bar-->
+    <!--Reference: https://www.w3schools.com/howto/howto_js_topnav.asp-->
+    <div class="topnavbar">
+        <a class="homepage" href="index.html">Home</a>
+    <script>
+        // to change navigation bar presentation based on client's login status
+        if (typeof document.cookie != 'undefined' && document.cookie != ""){ 
+        // cookie exists and is not detelted
+            document.write(`
+            <a class="userlogin" onclick="cookieExpire ()">Log Out</a>
+        `)} else if (document.cookie == "" || typeof document.cookie == 'undefined') {
+        // cookie is deleted or undefined, client is logout
+            document.write(`
+            <a class="userlogin" href="login_page.html">Login My Account</a>
+        `)};
+    </script>
+        <a class="userregistration" href="registration_page.html">Create An Account</a>
+        <a class="display1" href="display_tax.html">Tax Service</a>
+        <a class="display2" href="display_cpa.html">Prepare CPA Exam</a>
+        <a class="display3" href="display_tutorial.html">Tutorial Session</a>
+        <a class="display4" href="display_consultant.html">Consultant</a>
+    </div>
+    
+    <h1>Tax Preparation Company</h1> 
+    <script>
+    // split username from the cookie
+    // Reference: https://www.geeksforgeeks.org/how-to-get-value-of-a-string-after-last-slash-in-javascript/
+    let firstpart = document.cookie.split('=')
+    let uname = firstpart[firstpart.length - 1];
+    // modify registration instruction based on client's login status
+    if (document.cookie == "" || typeof document.cookie == 'undefined') {
+    // if client is logout (no cookie or cookie is deleted), show registration instruction without client's username
+        document.write(`
+    <p>Welcome to <i>Tax Preparation Company</i>! <br>Please fill out the form below to register an account. <br>After you finished the registration process, you will be login into your account.</p>
+    <br>
+    `)}
+    else if (typeof document.cookie != 'undefined' && document.cookie != "") {
+    // if client is login (with cookie and cookie is not deleted), show client's username and change instruction
+        document.write(`
+    <p>Hey <b>${uname}</b>! Welcome to <i>Tax Preparation Company</i>! <br>If you want to register another account, please fill out the form below to register an account. <br>After you finished the registration process, you will be login into your new account.</p>
+    <br>   
+    `)}
+    </script>
+
+    <div>
+    <!--Create an textbox for client to input information-->
+    <!--Check information in each textbox if it is valid-->
+    <label>Full Name</label>
+    <input name='new_client_full_name' type='text' required maxlength="30" onchange="isValidFullName(this)" ><br>
+    <span id='full_name_message'></span>
+    <br><br>
+    <label>Username:</label>
+    <input name='new_user_name' type="text" required minlength="4" maxlength="10" size='10'  onchange='isValidUserName(this)'><br>
+    <span id='user_name_message'></span>
+    <br><br>
+    <label>Password</label>
+    <input name='password' type='password' required minlength="6">
+    <br>
+    <label>Confirm Password</label>
+    <input name='confirm_password' type='password' required minlength="6" onkeyup="isPasswordMatch()"><br>
+    <span id="password_err"></span>
+    <br><br>
+    <label>Email Address</label>
+    <input name='new_email' type='text' onchange="isValidEmail(this)"><br>
+    <span id='email_message'></span>
+    <br><br>
+    <input id="submit_button" style="font-size: 15px;background-color: lightgrey;" type="submit" value="Create an account">
+    </div>
+<ul>
+    <li>The username should have at least 4 characters but not exceed 10 characters.</li>
+    <li>Please only input letters and numbers in the username box.</li>
+    <li>Username and email address are case insensitive.</li>
+    <li>Password is case sensitive.</li>
+</ul>
+</form>
+    <p>Already have an account?</p>
+    <a href="./login_page.html">
+    <button style="font-size: 15px;background-color: lightgrey;">Back to login</button>
+    </a>
+</body>
+</html>
+<style>
+    h1 {
+        font-size: 70px;
+        text-align: center;
+        font-family: 'Courier New';
+    }
+    p {
+        font-size: 25px;
+        font-family: 'Courier New';
+    }
+    div {
+        font-size: 20px;
+        font-family: 'Courier New';
+        border: lightgrey 2px solid;
+    }
+    body {
+        background-image: url(./image/website_background.jpg);
+        text-align: center;
+        font-family: 'Courier New';
+    }
+    /* Design the navigation bar*/
+    /* Reference: https://www.w3schools.com/howto/howto_js_topnav.asp */
+    .topnavbar {
+    background-color: lightslategrey;
+    overflow: hidden;
+    }
+    .topnavbar a {
+    float: center;
+    color: whitesmoke;
+    text-align: center;
+    padding: 14px 16px;
+    font-size: 23px;
+    }
+    .topnavbar a:hover {
+    background-color: lightsteelblue;
+    color:white;
+    }
+    .topnavbar a.userregistration {
+    background-color: lightgray;
+    color: black;
+    }
+</style>
+
+<script>
+// delete cookie to log out
+// Reference: https://www.w3schools.com/js/js_cookies.asp
+function cookieExpire () {
+   document.cookie = 'userlogin=;expires = Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+   window.location.reload();
+   return;
+}
+</script>
+
+

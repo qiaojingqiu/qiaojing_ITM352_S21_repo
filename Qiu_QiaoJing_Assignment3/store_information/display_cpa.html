@@ -1,0 +1,253 @@
+<script>  
+// This is the first product/service display page
+  // To get client's order data
+  // Reference Lab 12 - Professor Daniel Port
+  let params = (new URL(document.location)).searchParams;
+
+    // Check client's input, make sure the final input should be a positive integer; otherwise, the web page should display an error message
+
+    // Step1: Check input number if it is an positive integet
+    // Reference - Check Positive Integet: Lab 11 - Professor Daniel Port
+    function isNonNegInt(q,returnErrors=false) {
+        if(q =='') q=0; // Client should not receive any error message if there is no input in the textbox
+        var errors = []; // assume no errors at first
+        if(Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
+        if(q < 0) errors.push('Negative value!'); // Check if it is non-negative
+        if(parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+        return returnErrors ? errors : (errors.length == 0); // If there is no error message in the array, the length should be 0, which returns back to true, the input is a positive integer
+    };
+
+    // Step2: Display error message if the input is not a positive integer
+    // Reference - Display Error Message: Lab 12 - Professor Daniel Port
+    function checkQuantityTextbox(qtyTextboxOb) { //use the client's input as a parameter of the function
+        var errs = isNonNegInt(qtyTextboxOb.value,true); //create a variable for the input number checking array
+        qty_textbox_message.innerHTML = errs.join(" "); //if the input is not a positive integer, errs should not equal to an empty array; otherwise, no error message for positive integer input
+    }
+    // Step3: Check client inputted tax year if it is a positive integer and matches with the updated restriction
+    function isValidYear (y,returnErrors=false) {
+        var errors = [];
+        if(y =='' && !qtyTextboxOb.value =='')  errors.push('Please enter your desired tax year!');
+        if(Number(y) != y) errors.push('Your tax year is not a number!'); 
+        if(y < 0) errors.push('Please do not enter a negative number in the tax year box!'); 
+        if(parseInt(y) != y) errors.push('Please enter an integer in the tax year box!'); 
+        return returnErrors ? errors : (errors.length == 0); 
+    }
+
+    // Step4: Display error message if the tax year is not a allowable number
+    function checkTaxYearTextbox(taxyearTextboxOb) {
+        var errs_year = isValidYear(taxyearTextboxOb.value,true);
+        tax_year_textbox_message.innerHTML = errs_year.join(" ");
+    }
+
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Courier+New,Impact">
+    <title>Tax Preparation</title>
+
+</head>
+<body>
+<br>
+    <!--Create a Top Navigation Bar-->
+    <!--Reference: https://www.w3schools.com/howto/howto_js_topnav.asp-->
+<div class="topnavbar">
+    <a class="homepage" href="index.html">Home</a>
+    <script>
+        // to change navigation bar presentation based on client's login status
+        if (typeof document.cookie != 'undefined' && document.cookie != ""){ 
+        // cookie exists and is not detelted
+           document.write(`
+            <a class="userlogin" onclick="cookieExpire ()" href="login_page.html">Log Out</a>
+        `)} else if (document.cookie == "" || typeof document.cookie == 'undefined') {
+        // cookie is deleted or undefined, client is logout
+            document.write(`
+            <a class="userlogin" href="login_page.html">Login My Account</a>
+        `)};
+    </script>
+    <a class="userregistration" href="registration_page.html">Create An Account</a>
+    <a class="display1" href="display_tax.html">Tax Service</a>
+    <a class="display2" href="display_cpa.html">Prepare CPA Exam</a>
+    <a class="display3" href="display_tutorial.html">Tutorial Session</a>
+    <a class="display4" href="display_consultant.html">Consultant</a>
+</div>
+
+   <h1>Tax Preparation Company</h1> 
+   <script>
+    // change welcome based on client login status
+    // split username from the cookie
+    // Reference: https://www.geeksforgeeks.org/how-to-get-value-of-a-string-after-last-slash-in-javascript/
+    let firstpart = document.cookie.split('=')
+    let uname = firstpart[firstpart.length - 1];
+    if (document.cookie == "" || typeof document.cookie == 'undefined') {
+    document.write(`
+   <h2>Welcom to our website, you may want:</h2>
+   `)} else if (typeof document.cookie != 'undefined' && document.cookie != "") {
+       document.write(`
+    <h2>Hi ${uname}! Welcom to our website, you may want:</h2>  
+    `)}
+   </script>
+   <span id='qty_textbox_message'>Please enter a quantity</span> <br>
+   <span id='tax_year_textbox_message'>Please enter a tax year</span> <br><br>
+
+<form name="order_form" action="process_submit" method="GET">
+
+<!------Create a div for display purpose, to display text and order page in two separate columns-------->
+<div class="flex-container"> <!----Reference: Flexbox Methdd from 3 ways to display two divs side by side (float, flexbox, CSS grid) from coder-coder, https://coder-coder.com/display-divs-side-by-side/-->
+
+<div class="flex-child index_front_page">
+    <h1 style="color: black;">Aloha!</h1>
+    <p style="color: black;">Welcome to <i>Tax Preparation Website</i>. Our company established in 2021, which currently has five partners.
+    <br>
+    You may be interetsed in:
+
+    <ul style="font-size:20px; padding:20px">
+        <li>Preparing Individual Tax Return</li>
+        <li>Preparing Corporate Tax Return</li>
+        <li>Tax Planning for current or future tax year</li>
+        <li>Preparing Trust or Estate Tax Return</li>
+    </ul>
+    <br>
+    <h3>Order Instruction</h3>
+    <p style="color:black">Please place your order on the right side by inputting your desired quantity and tax year, then click the <b>Purchase</b> botton at the bottom to submit your order. <br> Don't forget to check the error message before you submit your order! </p>
+
+    We may need your most recent tax information and related document for your tax return preparation. <br>
+    If you have any question, please call our office number <i>(808)-123-4567</i>. 
+    </p>
+</div>
+
+<div class="flex-child input_quantity">
+
+<script src = "products.js">
+    // get product information
+</script>
+
+<script>
+    // create an array of different input names for form
+    //product_textbox_name = ['quantity_textbox_personal', 'quantity_textbox_corporate','quantity_textbox_trust','quantity_textbox_state_federal','quantity_textbox_planning'];
+    // create an array of different input tax year for form
+    //product_textbox_year = ['tax_year_personal','tax_year_corporate','tax_year_trust','tax_year__state_federal','tax_year_planning'];
+    // create a variable for most recent year, only can prepare tax return for the last three years, do tax planning for next year
+    var d = new Date();
+    var available_tax_year = 'We can only prepare your tax return for ' + '<br>' + (d.getFullYear()-3)+ ',' + ' ' + (d.getFullYear()-2) + ',' + ' ' + (d.getFullYear()-1) + ',' + ' ' + d.getFullYear()+ ',' + ' ' +  (d.getFullYear()+1);
+   
+    // Using loop to display product information
+    // Reference: Original code is from SmartPhoneProduct2 WOD - Professor Daniel Port
+    // Referene - textbox: Lab 12 - Professor Daniel Port
+    for (i = 0; i < product_array.length; i++) {
+      document.write(`
+        <h2>${(i+1)+':'+' '+product_array[i].name}</h2> 
+        <p style="background-color:grey;color:white">$ ${product_array[i].price}</p>
+        <p style="background-color:grey;color:white">${product_array[i].CPA_name}</p>  
+        <img src="${product_array[i].image}">
+        <br>
+        <label>Quantity Desired:</label> 
+        <input name="quantity${i}" type="text" value = 0 onkeyup="checkQuantityTextbox(this);">
+        <br><br>
+        <label>Tax Year:</label> 
+        <input name="tax_year${i}" type="text" value =' ' onkeyup="checkTaxYearTextbox(this);">
+        <p style="color:azure; background-color:grey">${available_tax_year}</p>
+        <br><br>  
+      `);
+    }
+
+</script>
+<input style="font-size:30px; background-color:lightgray" type="submit" value="Purchase">
+
+
+</form>
+</div>
+
+</div>
+</form>
+
+<style>
+    body {
+        text-align: center;
+        background-image: url(./image/background_image_display.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        font-family: 'Courier New';
+    }
+    img {
+        padding-bottom: 20px;
+        width: 200px;
+
+    }
+    h1 {
+        font-size: 50px;
+    }
+    h2 {
+        font-style: italic;
+    }
+    span {
+        font-size: 35px;
+        font-style: italic;
+        color: whitesmoke;
+        text-shadow: 1px 1px grey;
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    }
+    p {
+        font-size: 20px;
+        font-style: italic;
+    }
+    .flex-container {
+        display: flex;
+    }
+    .flex-child {
+        flex: 1;
+        border: 2px solid grey;
+    }
+    .flex-child:first-child{
+        margin-right:20px;
+        padding-left: 5px;
+        padding-right: 10px;
+    }
+    /* Design the navigation bar*/
+    /* Reference: https://www.w3schools.com/howto/howto_js_topnav.asp */
+    .topnavbar {
+    background-color: lightslategrey;
+    overflow: hidden;
+    }
+    .topnavbar a {
+    float: center;
+    color: whitesmoke;
+    text-align: center;
+    padding: 14px 16px;
+    font-size: 20px;
+    }
+    .topnavbar a:hover {
+    background-color: lightsteelblue;
+    color:white;
+    }
+    .topnavbar a.display2 {
+    background-color: lightgray;
+    color: black;
+    }
+</style>
+
+</body>
+</html>
+
+<script>
+// To keep client's input in query, this query will help the calculation in the invoice 
+// After client login, the page is loaded back to the display page, then shows the purchase invoice
+// Reference Professor Daniel Port Screencast:https://www.youtube.com/watch?v=cJxLxCzL-0M
+    window.onload = function () {
+        if (params.has('purchased')) {
+            location.href = './invoice_purchase.html' + location.search;
+        }
+    }
+// delete cookie to log out
+// Reference: https://www.w3schools.com/js/js_cookies.asp
+function cookieExpire () {
+   document.cookie = 'userlogin=;expires = Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+   window.location.reload();
+   return;
+}
+</script>
