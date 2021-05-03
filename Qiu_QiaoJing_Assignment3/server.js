@@ -10,7 +10,9 @@ var session = require('express-session');
 
 // create a secret for session
 // Reference: Professor Daniel Port Lab 15
+// Reference: Professor Daniel Port - Assignment 3 Code Example - https://dport96.github.io/ITM352/morea/180.Assignment3/reading-code-examples.html
 app.use(session({secret: "ITM352 rocks!"}));
+
 
 // To load file system
 // Reference Lab 14 from Professor Daniel Port
@@ -24,8 +26,16 @@ app.listen(8080, () => console.log(`listening on port 8080`));
 
 app.use(express.static('./store_information'));
 
-app.get('/process_submit', function(request, response, next) {
-    response.redirect('login_page.html?'+ qs.stringify(request.query))
+app.post('/process_submit_tutorial', function(request, response, next) {
+    var tutorial_quantity = request.body
+    for (i=0; tutorial_quantity[i] != ''; i++) {
+        let errs = isNonNegInt(tutorial_quantity,true);
+        if (errs.length>1) {
+            return;
+        } else {
+            sessionStorage.setItem(`tutorial_quantities[i]`,`tutorial_quantity[i]`)
+        }
+    }
 });
 
 // process login information
@@ -128,3 +138,24 @@ app.post('/process_register', function(request, response, next){
         console.log('Invalid input, not response to registration!');
     }
 });
+
+    // Check client inputted tax year if it is a positive integer and matches with the updated restriction
+    function isValidYear (y,returnErrors=false) {
+        var errors = [];
+        if(y =='' && !qtyTextboxOb.value =='')  errors.push('Please enter your desired tax year!');
+        if(Number(y) != y) errors.push('Your tax year is not a number!'); 
+        if(y < 0) errors.push('Please do not enter a negative number in the tax year box!'); 
+        if(parseInt(y) != y) errors.push('Please enter an integer in the tax year box!'); 
+        return returnErrors ? errors : (errors.length == 0); 
+    }
+
+    // Check input number if it is an positive integet
+    // Reference - Check Positive Integet: Lab 11 - Professor Daniel Port
+    function isNonNegInt(q,returnErrors=false) {
+        if(q =='') q=0; // Client should not receive any error message if there is no input in the textbox
+        var errors = []; // assume no errors at first
+        if(Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
+        if(q < 0) errors.push('Negative value!'); // Check if it is non-negative
+        if(parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+        return returnErrors ? errors : (errors.length == 0); // If there is no error message in the array, the length should be 0, which returns back to true, the input is a positive integer
+    };

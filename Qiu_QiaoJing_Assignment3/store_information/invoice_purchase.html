@@ -18,6 +18,9 @@
     <script src="products.js">
         //get product information
     </script>
+    <script src="newproducts.js">
+      //get new product information
+    </script>
 
 <table border="5">
     <tbody>
@@ -56,28 +59,40 @@
     // create an empty array for quantities
     // create an empty array for tax year
     let quantities = [];
+    let quantities_cpa = [];
+    let quantities_tutorial = [];
+    let quantities_consultant = [];
     let order_year = [];
     // use for loop to get submitted data and push them in the array
     for (i=0;i<product_array.length;i++) {
-      quantities[i]=params.get(`quantity${i}`);
+      quantities_tax[i]=params.get(`quantity${i}`);
       order_year[i]=params.get(`tax_year${i}`);
+    }
+    for (i=0;i<CPAexamreview.length;i++) {
+      quantities_cpa[i]=params.get(`cpa_quantity${i}`);
+    }
+    for (i=0;i<tutorial.length;i++) {
+      quantities_tutorial[i]=params.get(`tutorial_quantity${i}`);
+    }
+    for (i=0;i<consultant.length;i++) {
+      quantities_consultant[i]=params.get(`consultant_quantity${i}`);
     }
     
     // set beginning subtotal to be 0
       subtotal = 0;
-    // automative adding row function
+    // automative adding row function - for tax preparation
     // Reference Lab 12 - Professor Daniel Port
-      generate_item_rows(quantities);
+      generate_item_rows(quantities_tax);
       function generate_item_rows(product_quantities_array) {
-      for (i=0; i < quantities.length; i++) {
-        if (quantities[i]==0) continue; // Skip product with 0 quantity
-        if (isNonNegInt(quantities[i]) && isValidYear(order_year[i])) { // Output product information only when the input is a valid number
-        extended_price = product_array[i].price * quantities[i]; // Calculate extended price
-        subtotal += extended_price; // Create a running subtotal
+      for (i=0; i < quantities_tax.length; i++) {
+        if (quantities_tax[i]==0) continue; // Skip product with 0 quantity
+        if (isNonNegInt(quantities_tax[i]) && isValidYear(order_year[i])) { // Output product information only when the input is a valid number
+        extended_price_tax = product_array[i].price * quantities[i]; // Calculate extended price
+        subtotal += extended_price_tax; // Create a running subtotal
         document.write(`  
       <tr>
         <td width="33%">${product_array[i].name}</td>
-        <td align="center" width="10%">${quantities[i]}</td>
+        <td align="center" width="10%">${quantities_tax[i]}</td>
         <td align="center" width="10%">$${product_array[i].price.toFixed(2)}</td>
         <td align="center" width="15%">$${extended_price.toFixed(2)}</td>
         <td align="center" width="50%">${order_year[i]}</td>
@@ -85,9 +100,69 @@
       </tr>
               `); 
             }
-        //else {
-        //  window.location.href = "display.html"; // Redirect to the order page if the input is an invalid number
-        //}
+      }
+    }
+
+    // automative adding row function - for CPA exam preparation
+    // Reference Lab 12 - Professor Daniel Port
+    generate_item_rows(quantities_cpa);
+      function generate_item_rows(product_quantities_array) {
+      for (i=0; i < quantities_cpa.length; i++) {
+        if (quantities_cpa[i]==0) continue; // Skip product with 0 quantity
+        if (isNonNegInt(quantities_cpa[i])) { // Output product information only when the input is a valid number
+          extended_price_cpa = CPAexamreview[i].price * quantities_cpa[i]; // Calculate extended price
+          subtotal += extended_price_cpa; // Create a running subtotal
+        document.write(`  
+      <tr>
+        <td width="33%">CPA Exam Review</td>
+        <td align="center" width="10%">${quantities_cpa[i]}</td>
+        <td align="center" width="10%">$${CPAexamreview[i].price.toFixed(2)}</td>
+        <td align="center" width="15%">$${extended_price.toFixed(2)}</td>
+        <td align="center" width="50%"></td>
+        <td align="center" width="100%">${CPAexamreview[i].name}</td>
+      </tr>
+              `); 
+            }
+      }
+    }
+    generate_item_rows(quantities_tutorial);
+      function generate_item_rows(product_quantities_array) {
+      for (i=0; i < quantities_tutorial.length; i++) {
+        if (quantities_tutorial[i]==0) continue; // Skip product with 0 quantity
+        if (isNonNegInt(quantities_tutorial[i])) { // Output product information only when the input is a valid number
+        extended_price_tutorial = tutorial[i].price * quantities_tutorial[i]; // Calculate extended price
+        subtotal += extended_price_tutorial; // Create a running subtotal
+        document.write(`  
+      <tr>
+        <td width="33%">Tutorial</td>
+        <td align="center" width="10%">${quantities_tutorial[i]}</td>
+        <td align="center" width="10%">$${quantities_tutorial[i].price.toFixed(2)}</td>
+        <td align="center" width="15%">$${extended_price_tutorial.toFixed(2)}</td>
+        <td align="center" width="50%"></td>
+        <td align="center" width="100%">${tutorial[i].name}</td>
+      </tr>
+              `); 
+            }
+      }
+    }
+    generate_item_rows(quantities_consultant);
+      function generate_item_rows(product_quantities_array) {
+      for (i=0; i < quantities_consultant.length; i++) {
+        if (quantities_consultant[i]==0) continue; // Skip product with 0 quantity
+        if (isNonNegInt(quantities_consultant[i])) { // Output product information only when the input is a valid number
+        extended_price_consultant = consultant[i].price * quantities_consultant[i]; // Calculate extended price
+        subtotal += extended_price_consultant; // Create a running subtotal
+        document.write(`  
+      <tr>
+        <td width="33%">Consultant</td>
+        <td align="center" width="10%">${quantities_consultant[i]}</td>
+        <td align="center" width="10%">$${consultant[i].price.toFixed(2)}</td>
+        <td align="center" width="15%">$${extended_price_consultant.toFixed(2)}</td>
+        <td align="center" width="50%"></td>
+        <td align="center" width="100%">${consultant[i].name}</td>
+      </tr>
+              `); 
+            }
       }
     }
     
@@ -167,13 +242,34 @@
   </script>
   <ul>
   <script>
-    // skip any 0 quantity item
-    for (i=0; i<quantities.length; i++) {
-      if (quantities[i] == 0) continue;
+    // skip any 0 quantity item - Tax Preparation
+    for (i=0; i<quantities_tax.length; i++) {
+      if (quantities_tax[i] == 0) continue;
       document.write(`
-      <li>${order_year[i]}: ${quantities[i]} - ${product_array[i].name}</li>
+      <li>${order_year[i]}: ${quantities_tax[i]} - ${product_array[i].name}</li>
       `)
     }
+      // skip any 0 quantity item - CPA Exam
+      for (i=0; i<quantities_cpa.length; i++) {
+    if (quantities_cpa[i] == 0) continue;
+    document.write(`
+    <li>CPA Exam Review: ${quantities_cpa[i]} - ${CPAexamreview[i].name}</li>
+    `)
+  }
+      // skip any 0 quantity item - Tutorial
+      for (i=0; i<quantities_tutorial.length; i++) {
+    if (quantities_tutorial[i] == 0) continue;
+    document.write(`
+    <li>Tutorial: ${quantities_tutorial[i]} - ${tutorial[i].name}</li>
+    `)
+  }
+      // skip any 0 quantity item - Consultant
+      for (i=0; i<quantities_consultant.length; i++) {
+    if (quantities_consultant[i] == 0) continue;
+    document.write(`
+    <li>Consultant Service: ${quantities_consultant[i]} - ${consultant[i].name}</li>
+    `)
+  }
   </script>
   </ul>
 

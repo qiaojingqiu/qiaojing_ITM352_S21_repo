@@ -1,5 +1,5 @@
-{
-    "CPAexamreview": [
+
+var  CPAexamreview = [
         {
             "name": "Lisa",
             "price": 1200,
@@ -21,8 +21,8 @@
             "location": "3th floor A301",
             "time": "3:00PM - 4:30PM TR"
         }
-    ],
-    "tutorial": [
+    ];
+var tutorial = [
         {
             "name": "May",
             "price": 200,
@@ -37,8 +37,8 @@
             "location": "3th floor A301",
             "time": "4:00PM - 5:30PM MF"
         }
-    ],
-    "consultant": [
+    ];
+var consultant = [
         {
             "name": "Lisa",
             "hourlyprice": 50,
@@ -54,4 +54,3 @@
             "location": "1st floor A101"
         }
     ]
-}
