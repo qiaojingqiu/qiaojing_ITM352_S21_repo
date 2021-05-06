@@ -7,11 +7,21 @@ var qs = require('qs');
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 var session = require('express-session');
+var products_data = require('./products.json');
 
 // create a secret for session
 // Reference: Professor Daniel Port Lab 15
 // Reference: Professor Daniel Port - Assignment 3 Code Example - https://dport96.github.io/ITM352/morea/180.Assignment3/reading-code-examples.html
 app.use(session({secret: "ITM352 rocks!"}));
+//Reference: Assignment 3 Code Example - From Professor Daniel Port - To create a session to store order information
+app.all('*', function (request, response, next) {
+    if(typeof request.session.cart == 'undefined') { request.session.cart = {}; } // If session is undefined, that means that we did not send out a session to the user before, then create a new one
+    next();
+});
+
+app.post("/get_products_data", function (request, response) {
+    response.json(products_data);
+});
 
 
 // To load file system
@@ -26,16 +36,19 @@ app.listen(8080, () => console.log(`listening on port 8080`));
 
 app.use(express.static('./store_information'));
 
-app.post('/process_submit_tutorial', function(request, response, next) {
-    var tutorial_quantity = request.body
-    for (i=0; tutorial_quantity[i] != ''; i++) {
-        let errs = isNonNegInt(tutorial_quantity,true);
-        if (errs.length>1) {
-            return;
-        } else {
-            sessionStorage.setItem(`tutorial_quantities[i]`,`tutorial_quantity[i]`)
-        }
-    }
+app.get('/add_to_cart_tax', function (request, response) { // create a specific router to handle tax service order
+    var product_key = request.query['product_key'] // get product's name
+    var product_quantity_tax= request.query['quantity_tax'] // get quantity from the query and put them in a variable
+    var product_tax_year = request.query['tax_year'] // get tax year from the query and out them in a variable
+    request.session.cart[product_key] = {};
+    request.session.cart[product_key]['quantities'] = product_quantity_tax; // create an object in session to store quantity information specifically for tax service
+    request.session.cart[product_key]['tax_year'] = product_tax_year; // create an object in session to store tax year information specifically for tax service
+    response.redirect('./cart.html')
+    //response.json(request.session.cart);  
+});
+
+app.get("/get_cart", function (request, response) {
+    response.json(request.session.cart);  
 });
 
 // process login information

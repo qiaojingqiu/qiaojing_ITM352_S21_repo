@@ -35,7 +35,22 @@
     <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Courier+New,Impact">
     <title>Consultant Service</title>
+    <script src="./functions.js"></script>
+    <script>
 
+        // get the query string
+        if (params.has('products_key')) {
+            var products_key = params.get('products_key');
+        }
+
+        var products_data;
+        loadJSON('get_products_data', function (response) {
+            // Parsing JSON string into object
+            products_data = JSON.parse(response);
+        });
+
+    products=products_data[products_key];
+    </script>
 </head>
 <body>
 <br>
@@ -56,10 +71,10 @@
         `)};
     </script>
     <a class="userregistration" href="registration_page.html">Create An Account</a>
-    <a class="display1" href="display_tax.html">Tax Service</a>
-    <a class="display2" href="display_cpa.html">Prepare CPA Exam</a>
-    <a class="display3" href="display_tutorial.html">Tutorial Session</a>
-    <a class="display4" href="display_consultant.html">Consultant</a>
+    <a class="display1" href="display_tax.html?products_key=tax_service">Tax Service</a>
+    <a class="display2" href="display_cpa.html?products_key=CPAexamreview">Prepare CPA Exam</a>
+    <a class="display3" href="display_tutorial.html?products_key=tutorial">Tutorial Session</a>
+    <a class="display4" >Consultant</a>>
 </div>
 
    <h1>Tax Preparation Company</h1> 
@@ -105,21 +120,17 @@
 
 <div class="flex-child input_quantity">
 
-<script src = "newproducts.js">
-    // get product information
-</script>
-
 <script>
     // Using loop to display product information
     // Reference: Original code is from SmartPhoneProduct2 WOD - Professor Daniel Port
     // Referene - textbox: Lab 12 - Professor Daniel Port
-    for (i = 0; i < consultant.length; i++) {
+    for (i = 0; i < products.length; i++) {
       document.write(`
-        <h2>${(i+1)+':'+' '+consultant[i].name}</h2> 
-        <p style="background-color:grey;color:white">$ ${consultant[i].hourlyprice}</p>
-        <p style="background-color:grey;color:white">${consultant[i].workingExperience}</p>  
-        <p style="background-color:grey;color:white">${consultant[i].coveredArea}</p> 
-        <p style="background-color:grey;color:white">${consultant[i].location}</p> 
+        <h2>${(i+1)+':'+' '+products[i].name}</h2> 
+        <p style="background-color:grey;color:white">$ ${products[i].hourlyprice}</p>
+        <p style="background-color:grey;color:white">${products[i].workingExperience}</p>  
+        <p style="background-color:grey;color:white">${products[i].coveredArea}</p> 
+        <p style="background-color:grey;color:white">${products[i].location}</p> 
         <br>
         <label>Quantity Desired:</label> 
         <input name="consultant_quantity${i}" type="text" value = 0 onkeyup="checkQuantityTextbox(this);">
