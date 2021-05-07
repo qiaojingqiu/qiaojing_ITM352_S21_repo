@@ -36,18 +36,26 @@ app.listen(8080, () => console.log(`listening on port 8080`));
 
 app.use(express.static('./store_information'));
 
-app.get('/add_to_cart_tax', function (request, response) { // create a specific router to handle tax service order
+app.get('/add_to_cart', function (request, response) { // create a specific router to handle tax service order
     var product_key = request.query['product_key'] // get product's name
-    var product_quantity_tax= request.query['quantity_tax'] // get quantity from the query and put them in a variable
-    var product_tax_year = request.query['tax_year'] // get tax year from the query and out them in a variable
-    request.session.cart[product_key] = {};
-    request.session.cart[product_key]['quantities'] = product_quantity_tax; // create an object in session to store quantity information specifically for tax service
+    var product_quantity_tax= request.query['quantity'] // get quantity from the query and put them in a variable
+    
+    if (typeof request.session.cart[product_key] == 'undefined') {
+        request.session.cart[product_key] = {};
+    }
+    request.session.cart[product_key]['quantity'] = product_quantity_tax; // create an object in session to store quantity information specifically for tax service
+    if (typeof request.query['tax_year'] != 'undefined') {
+    var product_tax_year = request.query['tax_year']// get tax year from the query and out them in a variable
     request.session.cart[product_key]['tax_year'] = product_tax_year; // create an object in session to store tax year information specifically for tax service
-    response.redirect('./cart.html')
+    };
+    response.redirect(`display_${product_key}.html?message=Your order has been added to the shopping cart!`);
     //response.json(request.session.cart);  
+    console.log(request.session.cart);
 });
 
-app.get("/get_cart", function (request, response) {
+
+app.post("/get_cart", function (request, response) {
+    console.log(request.session.cart);
     response.json(request.session.cart);  
 });
 

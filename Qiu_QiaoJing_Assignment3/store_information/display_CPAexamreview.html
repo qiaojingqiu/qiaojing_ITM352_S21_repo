@@ -34,18 +34,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Courier+New,Impact">
-    <title>Accounting Tutorial Session</title>
+    <title>CPA Exam Preparation</title>
     <script src="./functions.js"></script>
-    <script src="products.js"></script>
     <script>
-        let qty = [];
-        var products_info = tutorial;
+
         // get the query string
-            for (i=0; i< products_info.length; i++) {
-                qty[i] = params.get(`quantity[${i}]`);
-            }
+        if (params.has('products_key')) {
+            var products_key = params.get('products_key');
+        }
+
+        var products_data;
+        loadJSON('get_products_data', function (response) {
+            // Parsing JSON string into object
+            products_data = JSON.parse(response);
+        });
+
+    products=products_data[products_key];
     </script>
-    
+
 </head>
 <body>
 <br>
@@ -67,8 +73,8 @@
     </script>
     <a class="userregistration" href="registration_page.html">Create An Account</a>
     <a class="display1" href="display_tax_service.html?products_key=tax_service">Tax Service</a>
-    <a class="display2" href="display_CPAexamreview.html?products_key=CPAexamreview">Prepare CPA Exam</a>
-    <a class="display3">Tutorial Session</a>
+    <a class="display2">Prepare CPA Exam</a>
+    <a class="display3" href="display_tutorial.html?products_key=tutorial">Tutorial Session</a>
     <a class="display4" href="display_consultant.html?products_key=consultant">Consultant</a>
     <a class="cart" href="cart.html">My Shopping Cart</a>
 </div>
@@ -88,9 +94,9 @@
     <h2>Hi ${uname}! Welcom to our website, you may want:</h2>  
     `)}
    </script>
-   <span id='qty_textbox_message'>Please enter a quantity (number of people plan to join the tutorial session)</span> <br>
+   <span id='qty_textbox_message'>Please enter a valid quantity</span> <br>
 
-<form name="order_form" action="add_to_cart" method="GET">
+<form name="order_form" action="process_submit" method="GET">
 
 <!------Create a div for display purpose, to display text and order page in two separate columns-------->
 <div class="flex-container"> <!----Reference: Flexbox Methdd from 3 ways to display two divs side by side (float, flexbox, CSS grid) from coder-coder, https://coder-coder.com/display-divs-side-by-side/-->
@@ -99,17 +105,18 @@
     <h1 style="color: black;">Aloha!</h1>
     <p style="color: black;">Welcome to <i>Tax Preparation Website</i>. Our company established in 2021, which currently has five partners.
     <br>
-    If you are struggling in your accounting classes, you may be interetsed in our tutorial session set up by:
+    You may be interetsed in preparing your Certified Public Accountant exam, these are some available review class for your exam preparation:
 
     <ul style="font-size:20px; padding:20px">
-        <li>May</li>
-        <li>Sila</li>
+        <li>CPA: Lisa</li>
+        <li>CPA: Lillian</li>
+        <li>CPA: William</li>
     </ul>
     <br>
     <h3>Order Instruction</h3>
-    <p style="color:black">Please place your order on the right side by inputting your desired quantity and tax year, then click the <b>Add to My Cart</b> botton at the bottom to place your order. <br> Don't forget to check the error message before you add your order! </p>
+    <p style="color:black">Please place your order on the right side by inputting your desired quantity and tax year, then click the <b>Add to My Cart</b> botton at the bottom to place your order in the shopping cart. <br> Don't forget to check the error message before you add your order! </p>
 
-    We will provide more information to you via email once you submit your order. <br>
+    Once you finish your order, our CPAs will email some related class materials to you. <br>
     If you have any question, please call our office number <i>(808)-123-4567</i>. 
     </p>
 </div>
@@ -120,30 +127,22 @@
     // Using loop to display product information
     // Reference: Original code is from SmartPhoneProduct2 WOD - Professor Daniel Port
     // Referene - textbox: Lab 12 - Professor Daniel Port
-    for (i = 0; i < products_info.length; i++) {
+    for (i = 0; i < products.length; i++) {
       document.write(`
-        <h2>${(i+1)+':'+' '+products_info[i].name}</h2> 
-        <p style="background-color:grey;color:white">$ ${products_info[i].price}</p>
-        <p style="background-color:grey;color:white">${products_info[i].education}</p> 
-        <p style="background-color:grey;color:white">${products_info[i].location}</p>  
-        <p style="background-color:grey;color:white">${products_info[i].time}</p> 
-        <br>`);
-        if (qty[i]>0) {
-            document.write(`
+        <h2>${(i+1)+':'+' '+products[i].name}</h2> 
+        <p style="background-color:grey;color:white">$ ${products[i].price}</p>
+        <p style="background-color:grey;color:white">${products[i].workingExperience}</p>  
+        <p style="background-color:grey;color:white">${products[i].location}</p>  
+        <p style="background-color:grey;color:white">${products[i].time}</p>  
+        <br>
         <label>Quantity Desired:</label> 
-        <input name="quantity" type="text" value = ${qty[i]} onkeyup="checkQuantityTextbox(this);">
-        <br><br>
-       `) } else {
-        document.write(`
-        <label>Quantity Desired:</label> 
-        <input name="quantity" type="text" value =0 onkeyup="checkQuantityTextbox(this);">
-        <br><br>`)
-       }
+        <input name="cpa_quantity${i}" type="text" value = 0 onkeyup="checkQuantityTextbox(this);">
+        <br><br> 
+      `);
     }
 
 </script>
 <input style="font-size:30px; background-color:lightgray" type="submit" value="Add to My Cart">
-<input type="hidden" name="product_key" value="tutorial">
 
 
 </form>
@@ -211,7 +210,7 @@
     background-color: lightsteelblue;
     color:white;
     }
-    .topnavbar a.display3 {
+    .topnavbar a.display2 {
     background-color: lightgray;
     color: black;
     }

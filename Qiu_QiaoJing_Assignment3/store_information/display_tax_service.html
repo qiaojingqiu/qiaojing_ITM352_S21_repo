@@ -3,6 +3,9 @@
   // To get client's order data
   // Reference Lab 12 - Professor Daniel Port
   let params = (new URL(document.location)).searchParams;
+  if (params.has('message')) {
+      alert(params.get('message'));
+  }
 
     // Check client's input, make sure the final input should be a positive integer; otherwise, the web page should display an error message
 
@@ -52,19 +55,26 @@
     <title>Tax Preparation</title>
     <script src="./functions.js"></script>
     <script>
-
-        // get the query string
-        if (params.has('products_key')) {
-            var products_key = params.get('products_key');
-        }
-
-        var products_data;
-        loadJSON('get_products_data', function (response) {
+        var shopping_cart;
+        loadJSON('get_cart', function (response) {
             // Parsing JSON string into object
-            products_data = JSON.parse(response);
+            shopping_cart = JSON.parse(response);
         });
+        console.log(shopping_cart);
+    </script>
+    <script src="products.js"></script>
+    <script>
+        let qty = [];
+        let tax_year = [];
+        var products_info = tax_service
+        if (typeof shopping_cart['tax_service'] != 'undefined' ) {
+                    // get the session.cart data
+                qty = shopping_cart['tax_service']['quantity']; 
+                tax_year = shopping_cart['tax_service']['tax_year'];
+            }
+        
 
-    products=products_data[products_key];
+            
     </script>
 
 </head>
@@ -88,9 +98,10 @@
     </script>
     <a class="userregistration" href="registration_page.html">Create An Account</a>
     <a class="display1">Tax Service</a>
-    <a class="display2" href="display_cpa.html?products_key=CPAexamreview">Prepare CPA Exam</a>
+    <a class="display2" href="display_CPAexamreview.html?products_key=CPAexamreview">Prepare CPA Exam</a>
     <a class="display3" href="display_tutorial.html?products_key=tutorial">Tutorial Session</a>
     <a class="display4" href="display_consultant.html?products_key=consultant">Consultant</a>
+    <a class="cart" href="cart.html">My Shopping Cart</a>
 </div>
 
    <h1>Tax Preparation Company</h1> 
@@ -111,7 +122,7 @@
    <span id='qty_textbox_message'>Please enter a quantity</span> <br>
    <span id='tax_year_textbox_message'>Please enter a tax year</span> <br><br>
 
-<form name="order_form" action="add_to_cart_tax" method="GET">
+<form name="order_form" action="add_to_cart" method="GET">
 
 <!------Create a div for display purpose, to display text and order page in two separate columns-------->
 <div class="flex-container"> <!----Reference: Flexbox Methdd from 3 ways to display two divs side by side (float, flexbox, CSS grid) from coder-coder, https://coder-coder.com/display-divs-side-by-side/-->
@@ -151,21 +162,32 @@
     // Using loop to display product information
     // Reference: Original code is from SmartPhoneProduct2 WOD - Professor Daniel Port
     // Referene - textbox: Lab 12 - Professor Daniel Port
-    for (i = 0; i < products.length; i++) {
-      document.write(`
-        <h2>${(i+1)+':'+' '+products[i].name}</h2> 
-        <p style="background-color:grey;color:white">$ ${products[i].price}</p>
-        <p style="background-color:grey;color:white">${products[i].CPA_name}</p>  
-        <img src="${products[i].image}">
-        <br>
+    for (i = 0; i < products_info.length; i++) {
+            document.write(`
+        <h2>${(i+1)+':'+' '+products_info[i].name}</h2> 
+        <p style="background-color:grey;color:white">$ ${products_info[i].price}</p>
+        <p style="background-color:grey;color:white">${products_info[i].CPA_name}</p>  
+        <img src="${products_info[i].image}">
+        <br>`); 
+        if (qty[i] > 0) {
+            document.write (`
         <label>Quantity Desired:</label> 
-        <input name="quantity_tax" type="text" value = 0 onkeyup="checkQuantityTextbox(this);">
+        <input name="quantity_tax" type="text" value = ${qty[i]} onkeyup="checkQuantityTextbox(this);">
         <br><br>
         <label>Tax Year:</label> 
-        <input name="tax_year" type="text" value =' ' onkeyup="checkTaxYearTextbox(this);">
+        <input name="tax_year" type="text" value =${tax_year[i]} onkeyup="checkTaxYearTextbox(this);">
         <p style="color:azure; background-color:grey">${available_tax_year}</p>
         <br><br>  
-      `);
+        `)} else {
+            document.write(`
+        <label>Quantity Desired:</label> 
+        <input name="quantity" type="text" value = 0 onkeyup="checkQuantityTextbox(this);">
+        <br><br>
+        <label>Tax Year:</label> 
+        <input name="tax_year" type="text" value ="" onkeyup="checkTaxYearTextbox(this);">
+        <p style="color:azure; background-color:grey">${available_tax_year}</p>
+        <br><br> `)
+        }
     }
 
 </script>
@@ -232,7 +254,7 @@
     color: whitesmoke;
     text-align: center;
     padding: 14px 16px;
-    font-size: 20px;
+    font-size: 16px;
     }
     .topnavbar a:hover {
     background-color: lightsteelblue;
