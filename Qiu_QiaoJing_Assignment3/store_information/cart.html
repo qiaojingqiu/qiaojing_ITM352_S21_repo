@@ -50,44 +50,83 @@
         if (typeof document.cookie != 'undefined' && document.cookie != ""){ 
             document.write(`
             <h2>Hey ${uname}, this is everything in you shopping cart!</h2>
-            <p>Back: Go back to the display page for more products' information</p>
             <p>Check Out: To place your order</p>
             `)} else if (document.cookie == "" || typeof document.cookie == 'undefined') {
                 document.write(`
             <h2>Welcome, this is everything in you shopping cart!</h2>
-            <p>Back: Go back to the display page for more products' information</p>
             <p>Check Out: To place your order</p>
             <p>Please log in you account before checking out</p>
             `)
             }
     </script>
 
-<table border="5">
+<table border="5" style="margin-left:auto; margin-right:auto;">
     <tbody>
       <tr>
         <th style="text-align: center;" width="30%">Product Name & Information</th>
         <th style="text-align: center;" width="10%">Quantity</th>
         <th style="text-align: center;" width="10%">Unit Price</th>
-        <th style="text-align: center;" width="15%">Extended Price</th>
       </tr>
 
     <script>
-        document.write(`<p>this is your cart ${shopping_cart}</p>`)
-        for (i=1; i<= tax_service.length; i++) {
-            extended_price_tax = shopping_cart['tax_service']['quantity_tax'][i] * tax_service[i].price
-            if (shopping_cart['tax_service']['quantity_tax'][i]>0) {
+        if (typeof shopping_cart['tax_service'] != 'undefined') {
+        for (i=0; i< tax_service.length; i++) {
+            if (shopping_cart['tax_service']['quantity'][i]>0) {
                 document.write(`
     <tr>
-        <td width="33%">Tax Service: ${tax_service[i].name}, ${shopping_cart['tax_service']['tax_year'][i]}}</td>
-        <td align="center" width="10%">${shopping_cart['tax_service']['quantity_tax'][i]}</td>
+        <td width="33%">Tax Service: ${tax_service[i].name}, ${shopping_cart['tax_service']['tax_year'][i]}</td>
+        <td align="center" width="10%">${shopping_cart['tax_service']['quantity'][i]}</td>
         <td align="center" width="10%">$${tax_service[i].price}</td>
-        <td align="center" width="100%">${extended_price_tax}</td>
     </tr>
-          //  `)}
+          `)}}
+        }
+
+        if (typeof shopping_cart['CPAexamreview'] != 'undefined') {
+        for (i=0; i< CPAexamreview.length; i++) {
+            if (shopping_cart['CPAexamreview']['quantity'][i]>0) {
+                document.write(`
+    <tr>
+        <td width="33%">CPA Exam Review: ${CPAexamreview[i].name}</td>
+        <td align="center" width="10%">${shopping_cart['CPAexamreview']['quantity'][i]}</td>
+        <td align="center" width="10%">$${CPAexamreview[i].price}</td>
+    </tr>
+          `)}
         } 
+    }
+
+        if (typeof shopping_cart['tutorial'] != 'undefined') {
+        for (i=0; i< tutorial.length; i++) {
+            if (shopping_cart['tutorial']['quantity'][i]>0) {
+                document.write(`
+    <tr>
+        <td width="33%">Tutorial: ${tutorial[i].name}</td>
+        <td align="center" width="10%">${shopping_cart['tutorial']['quantity'][i]}</td>
+        <td align="center" width="10%">$${tutorial[i].price}</td>
+    </tr>
+          `)}
+        } 
+    }
+
+    if (typeof shopping_cart['consultant'] != 'undefined') {
+        for (i=1; i<= consultant.length; i++) {
+            if (shopping_cart['consultant']['quantity'][i]>0) {
+                document.write(`
+    <tr>
+        <td width="33%">Tax Service: ${consultant[i].name}</td>
+        <td align="center" width="10%">${shopping_cart['consultant']['quantity'][i]}</td>
+        <td align="center" width="10%">$${consultant[i].hourlyprice}</td>
+    </tr>
+          `)}
+        } 
+    }
     </script>
     </tbody>
 </table>
+<form name="order_form" action="send_invoice" method="GET">
+<br><br><br><div class="check_out"></div>
+<button>Check Out</button>
+</div>
+</form>
 </body>
 </html>
 
@@ -136,5 +175,10 @@
     p {
         font-size: 20px;
         font-style: italic;
+    }
+    .check_out {
+        margin-right: 40px;
+        margin-top: 80px;
+        font-size: 40px;
     }
 </style>

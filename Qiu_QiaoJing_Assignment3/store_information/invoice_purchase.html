@@ -18,19 +18,22 @@
     <script src="products.js">
         //get product information
     </script>
-    <script src="newproducts.js">
-      //get new product information
+    <script src="./functions.js"></script>
+    <script>
+        var shopping_cart;
+        loadJSON('get_cart', function (response) {
+            // Parsing JSON string into object
+            shopping_cart = JSON.parse(response);
+        });
     </script>
 
-<table border="5">
+<table border="5" style="margin-left:auto; margin-right:auto;">
     <tbody>
       <tr>
-        <th style="text-align: center;" width="30%">Service Name</th>
+        <th style="text-align: center;" width="30%">Order Information</th>
         <th style="text-align: center;" width="10%">Quantity</th>
         <th style="text-align: center;" width="10%">Unit Price</th>
         <th style="text-align: center;" width="15%">Extended Price</th>
-        <th style="text-align: center;" width="50%">Tax Year</th>
-        <th style="text-align: center;" width="100%">Name of the CPA</th>
       </tr>
     
     <script>
@@ -55,111 +58,80 @@
         if(parseInt(y) != y) errors.push('Please enter an integer in the tax year box!'); 
         return returnErrors ? errors : (errors.length == 0); 
     }
-
-    // create an empty array for quantities
-    // create an empty array for tax year
-    let quantities = [];
-    let quantities_cpa = [];
-    let quantities_tutorial = [];
-    let quantities_consultant = [];
-    let order_year = [];
-    // use for loop to get submitted data and push them in the array
-    for (i=0;i<product_array.length;i++) {
-      quantities_tax[i]=params.get(`quantity${i}`);
-      order_year[i]=params.get(`tax_year${i}`);
-    }
-    for (i=0;i<CPAexamreview.length;i++) {
-      quantities_cpa[i]=params.get(`cpa_quantity${i}`);
-    }
-    for (i=0;i<tutorial.length;i++) {
-      quantities_tutorial[i]=params.get(`tutorial_quantity${i}`);
-    }
-    for (i=0;i<consultant.length;i++) {
-      quantities_consultant[i]=params.get(`consultant_quantity${i}`);
-    }
     
     // set beginning subtotal to be 0
       subtotal = 0;
     // automative adding row function - for tax preparation
     // Reference Lab 12 - Professor Daniel Port
-      generate_item_rows(quantities_tax);
-      function generate_item_rows(product_quantities_array) {
-      for (i=0; i < quantities_tax.length; i++) {
-        if (quantities_tax[i]==0) continue; // Skip product with 0 quantity
-        if (isNonNegInt(quantities_tax[i]) && isValidYear(order_year[i])) { // Output product information only when the input is a valid number
-        extended_price_tax = product_array[i].price * quantities[i]; // Calculate extended price
+      if (typeof shopping_cart['tax_service'] != 'undefined') {
+      for (i=0; i < tax_service.length; i++) {
+        if (shopping_cart['tax_service']['quantity'][i]==0) continue; // Skip product with 0 quantity
+        else { // Output product information only when the input is a valid number
+        extended_price_tax = tax_service[i].price * shopping_cart['tax_service']['quantity'][i]; // Calculate extended price
         subtotal += extended_price_tax; // Create a running subtotal
         document.write(`  
       <tr>
-        <td width="33%">${product_array[i].name}</td>
-        <td align="center" width="10%">${quantities_tax[i]}</td>
-        <td align="center" width="10%">$${product_array[i].price.toFixed(2)}</td>
-        <td align="center" width="15%">$${extended_price.toFixed(2)}</td>
-        <td align="center" width="50%">${order_year[i]}</td>
-        <td align="center" width="100%">${product_array[i].CPA_name}</td>
+        <td width="33%">Tax Service: ${tax_service[i].name} <br> ${shopping_cart['tax_service']['tax_year'][i]}</td>
+        <td align="center" width="10%">${shopping_cart['tax_service']['quantity'][i]}</td>
+        <td align="center" width="10%">$${tax_service[i].price.toFixed(2)}</td>
+        <td align="center" width="15%">$${extended_price_tax.toFixed(2)}</td>
       </tr>
               `); 
             }
       }
     }
+  
 
     // automative adding row function - for CPA exam preparation
     // Reference Lab 12 - Professor Daniel Port
-    generate_item_rows(quantities_cpa);
-      function generate_item_rows(product_quantities_array) {
-      for (i=0; i < quantities_cpa.length; i++) {
-        if (quantities_cpa[i]==0) continue; // Skip product with 0 quantity
-        if (isNonNegInt(quantities_cpa[i])) { // Output product information only when the input is a valid number
-          extended_price_cpa = CPAexamreview[i].price * quantities_cpa[i]; // Calculate extended price
+      if (typeof shopping_cart['CPAexamreview'] != 'undefined') {
+      for (i=0; i < CPAexamreview.length; i++) {
+        if (shopping_cart['CPAexamreview']['quantity'][i]==0) continue; // Skip product with 0 quantity
+          else {
+          extended_price_cpa = CPAexamreview[i].price * shopping_cart['CPAexamreview']['quantity'][i]; // Calculate extended price
           subtotal += extended_price_cpa; // Create a running subtotal
         document.write(`  
       <tr>
-        <td width="33%">CPA Exam Review</td>
-        <td align="center" width="10%">${quantities_cpa[i]}</td>
+        <td width="33%">CPA Exam Review: ${CPAexamreview[i].name}</td>
+        <td align="center" width="10%">${shopping_cart['CPAexamreview']['quantity'][i]}</td>
         <td align="center" width="10%">$${CPAexamreview[i].price.toFixed(2)}</td>
-        <td align="center" width="15%">$${extended_price.toFixed(2)}</td>
-        <td align="center" width="50%"></td>
-        <td align="center" width="100%">${CPAexamreview[i].name}</td>
+        <td align="center" width="15%">$${extended_price_cpa.toFixed(2)}</td>
       </tr>
               `); 
             }
       }
     }
-    generate_item_rows(quantities_tutorial);
-      function generate_item_rows(product_quantities_array) {
-      for (i=0; i < quantities_tutorial.length; i++) {
-        if (quantities_tutorial[i]==0) continue; // Skip product with 0 quantity
-        if (isNonNegInt(quantities_tutorial[i])) { // Output product information only when the input is a valid number
-        extended_price_tutorial = tutorial[i].price * quantities_tutorial[i]; // Calculate extended price
+  
+      if (typeof shopping_cart['tutorial'] != 'undefined') {
+      for (i=0; i < tutorial.length; i++) {
+        if (shopping_cart['tutorial']['quantity'][i]==0) continue; // Skip product with 0 quantity
+        else {
+        extended_price_tutorial = tutorial[i].price * shopping_cart['tutorial']['quantity'][i]; // Calculate extended price
         subtotal += extended_price_tutorial; // Create a running subtotal
         document.write(`  
       <tr>
-        <td width="33%">Tutorial</td>
-        <td align="center" width="10%">${quantities_tutorial[i]}</td>
-        <td align="center" width="10%">$${quantities_tutorial[i].price.toFixed(2)}</td>
+        <td width="33%">Tutorial: ${tutorial[i].name}</td>
+        <td align="center" width="10%">${shopping_cart['tutorial']['quantity'][i]}</td>
+        <td align="center" width="10%">$${tutorial[i].price.toFixed(2)}</td>
         <td align="center" width="15%">$${extended_price_tutorial.toFixed(2)}</td>
-        <td align="center" width="50%"></td>
-        <td align="center" width="100%">${tutorial[i].name}</td>
       </tr>
               `); 
             }
       }
     }
-    generate_item_rows(quantities_consultant);
-      function generate_item_rows(product_quantities_array) {
-      for (i=0; i < quantities_consultant.length; i++) {
-        if (quantities_consultant[i]==0) continue; // Skip product with 0 quantity
-        if (isNonNegInt(quantities_consultant[i])) { // Output product information only when the input is a valid number
-        extended_price_consultant = consultant[i].price * quantities_consultant[i]; // Calculate extended price
+  
+      if (typeof shopping_cart['consultant'] != 'undefined') {
+      for (i=0; i < consultant.length; i++) {
+        if (shopping_cart['consultant']['quantity'][i]==0) continue; // Skip product with 0 quantity
+        else {
+        extended_price_consultant = consultant[i].price * shopping_cart['consultant']['quantity'][i]; // Calculate extended price
         subtotal += extended_price_consultant; // Create a running subtotal
         document.write(`  
       <tr>
-        <td width="33%">Consultant</td>
-        <td align="center" width="10%">${quantities_consultant[i]}</td>
+        <td width="33%">Consultant: ${consultant[i].name}</td>
+        <td align="center" width="10%">${shopping_cart['consultant']['quantity'][i]}</td>
         <td align="center" width="10%">$${consultant[i].price.toFixed(2)}</td>
         <td align="center" width="15%">$${extended_price_consultant.toFixed(2)}</td>
-        <td align="center" width="50%"></td>
-        <td align="center" width="100%">${consultant[i].name}</td>
       </tr>
               `); 
             }
@@ -237,39 +209,49 @@
     </tbody>
   </table>
   <script>
+    let firstpart = document.cookie.split('=')
+    let uname = firstpart[firstpart.length - 1];
     // show client's user name and purchase information
-    document.write(`<p>Aloha, ${params.get('user_name')}! <br>Thank you, ${params.get('user_name')} for your order information, this is your invoice. <br>Thank you for selecting our company. Your order is:</p>`)
+    document.write(`<p>Aloha, ${uname}! <br>Thank you for selecting our company, this is your invoice. <br>Your order is:</p>`)
   </script>
   <ul>
   <script>
     // skip any 0 quantity item - Tax Preparation
-    for (i=0; i<quantities_tax.length; i++) {
-      if (quantities_tax[i] == 0) continue;
+    if (typeof shopping_cart['tax_service'] != 'undefined') {
+    for (i=0; i<tax_service.length; i++) {
+      if (shopping_cart['tax_service']['quantity'][i] == 0) continue;
       document.write(`
-      <li>${order_year[i]}: ${quantities_tax[i]} - ${product_array[i].name}</li>
+      <li>${shopping_cart['tax_service']['tax_year'][i]}: ${shopping_cart['tax_service']['quantity'][i]} - ${tax_service[i].name}</li>
       `)
     }
+  }
       // skip any 0 quantity item - CPA Exam
-      for (i=0; i<quantities_cpa.length; i++) {
-    if (quantities_cpa[i] == 0) continue;
+    if (typeof shopping_cart['CPAexamreview'] != 'undefined') {
+    for (i=0; i<CPAexamreview.length; i++) {
+    if (shopping_cart['CPAexamreview']['quantity'][i] == 0) continue;
     document.write(`
-    <li>CPA Exam Review: ${quantities_cpa[i]} - ${CPAexamreview[i].name}</li>
+    <li>CPA Exam Review: ${shopping_cart['CPAexamreview']['quantity'][i]} - ${CPAexamreview[i].name}</li>
     `)
   }
+}
       // skip any 0 quantity item - Tutorial
-      for (i=0; i<quantities_tutorial.length; i++) {
-    if (quantities_tutorial[i] == 0) continue;
+    if (typeof shopping_cart['tutorial'] != 'undefined') {
+    for (i=0; i<tutorial.length; i++) {
+    if (shopping_cart['tutorial']['quantity'][i] == 0) continue;
     document.write(`
-    <li>Tutorial: ${quantities_tutorial[i]} - ${tutorial[i].name}</li>
+    <li>Tutorial: ${shopping_cart['tutorial']['quantity'][i]} - ${tutorial[i].name}</li>
     `)
   }
+}
       // skip any 0 quantity item - Consultant
-      for (i=0; i<quantities_consultant.length; i++) {
-    if (quantities_consultant[i] == 0) continue;
+    if (typeof shopping_cart['consultant'] != 'undefined') {
+    for (i=0; i<consultant.length; i++) {
+    if (shopping_cart['consultant']['quantity'][i] == 0) continue;
     document.write(`
-    <li>Consultant Service: ${quantities_consultant[i]} - ${consultant[i].name}</li>
+    <li>Consultant Service: ${shopping_cart['consultant']['quantity'][i]} - ${consultant[i].name}</li>
     `)
   }
+}
   </script>
   </ul>
 

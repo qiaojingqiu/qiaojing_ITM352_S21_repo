@@ -3,6 +3,9 @@
   // To get client's order data
   // Reference Lab 12 - Professor Daniel Port
   let params = (new URL(document.location)).searchParams;
+  if (params.has('message')) {
+      alert(params.get('message'));
+  }
 
     // Check client's input, make sure the final input should be a positive integer; otherwise, the web page should display an error message
 
@@ -38,12 +41,21 @@
     <script src="./functions.js"></script>
     <script src="products.js"></script>
     <script>
+        var shopping_cart;
+        loadJSON('get_cart', function (response) {
+            // Parsing JSON string into object
+            shopping_cart = JSON.parse(response);
+        });
+        console.log(shopping_cart);
+        
         let qty = [];
         var products_info = tutorial;
-        // get the query string
-            for (i=0; i< products_info.length; i++) {
-                qty[i] = params.get(`quantity[${i}]`);
+        if (typeof shopping_cart['tutorial'] != 'undefined' ) {
+                    // get the session.cart data
+                qty = shopping_cart['tutorial']['quantity']; 
             }
+
+
     </script>
     
 </head>

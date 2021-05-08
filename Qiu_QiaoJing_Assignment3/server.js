@@ -160,23 +160,10 @@ app.post('/process_register', function(request, response, next){
     }
 });
 
-    // Check client inputted tax year if it is a positive integer and matches with the updated restriction
-    function isValidYear (y,returnErrors=false) {
-        var errors = [];
-        if(y =='' && !qtyTextboxOb.value =='')  errors.push('Please enter your desired tax year!');
-        if(Number(y) != y) errors.push('Your tax year is not a number!'); 
-        if(y < 0) errors.push('Please do not enter a negative number in the tax year box!'); 
-        if(parseInt(y) != y) errors.push('Please enter an integer in the tax year box!'); 
-        return returnErrors ? errors : (errors.length == 0); 
+app.get('/send_invoice', function(request, response) {
+    if (typeof request.cookies['userlogin'] == 'undefined') {
+        response.redirect('login_page.html?message=Please login your account to finish checkout'); 
+    } else {
+        response.redirect('invoice_purchase.html');
     }
-
-    // Check input number if it is an positive integet
-    // Reference - Check Positive Integet: Lab 11 - Professor Daniel Port
-    function isNonNegInt(q,returnErrors=false) {
-        if(q =='') q=0; // Client should not receive any error message if there is no input in the textbox
-        var errors = []; // assume no errors at first
-        if(Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
-        if(q < 0) errors.push('Negative value!'); // Check if it is non-negative
-        if(parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
-        return returnErrors ? errors : (errors.length == 0); // If there is no error message in the array, the length should be 0, which returns back to true, the input is a positive integer
-    };
+});
