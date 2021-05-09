@@ -5,7 +5,10 @@
   let params = (new URL(document.location)).searchParams;
   if (params.has('message')) {
       alert(params.get('message'));
-  }
+  };
+  if (params.has('error')) {
+      alert(params.get('error'));
+  };
     // Check client's input, make sure the final input should be a positive integer; otherwise, the web page should display an error message
 
     // Step1: Check input number if it is an positive integet
@@ -136,7 +139,7 @@
         <p style="background-color:grey;color:white">${products_info[i].coveredArea}</p> 
         <p style="background-color:grey;color:white">${products_info[i].location}</p> 
         <br>`);
-        if (qty[i]>0) {
+        if (qty[i]>0 && params.has('message')) {
             document.write(`
         <label>Quantity Desired:</label> 
         <input name="quantity" type="text" value =${qty[i]}  onkeyup="checkQuantityTextbox(this);">

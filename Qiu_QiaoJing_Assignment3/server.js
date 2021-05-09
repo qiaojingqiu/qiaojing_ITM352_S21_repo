@@ -36,21 +36,52 @@ app.listen(8080, () => console.log(`listening on port 8080`));
 
 app.use(express.static('./store_information'));
 
+function isNonNegInt(q,returnErrors=false) {
+    if(q =='') q=0; // Client should not receive any error message if there is no input in the textbox
+    var errors = []; // assume no errors at first
+    if(Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
+    if(q < 0) errors.push('Negative value!'); // Check if it is non-negative
+    if(parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+    return returnErrors ? errors : (errors.length == 0); // If there is no error message in the array, the length should be 0, which returns back to true, the input is a positive integer
+};
+
 app.get('/add_to_cart', function (request, response) { // create a specific router to handle tax service order
     var product_key = request.query['product_key'] // get product's name
-    var product_quantity_tax= request.query['quantity'] // get quantity from the query and put them in a variable
-    
-    if (typeof request.session.cart[product_key] == 'undefined') {
-        request.session.cart[product_key] = {};
-    }
-    request.session.cart[product_key]['quantity'] = product_quantity_tax; // create an object in session to store quantity information specifically for tax service
+    var product_quantity= request.query['quantity'] // get quantity from the query and put them in a variable
+    var errs = [];
     if (typeof request.query['tax_year'] != 'undefined') {
-    var product_tax_year = request.query['tax_year']// get tax year from the query and out them in a variable
-    request.session.cart[product_key]['tax_year'] = product_tax_year; // create an object in session to store tax year information specifically for tax service
+        var product_tax_year = request.query['tax_year']// get tax year from the query and out them in a variable
+        }
+    for (i=0; i< product_quantity.length; i++) {
+        if (Number(product_quantity[i]) != product_quantity[i]) {
+           errs.push('Your input is not a number!')
+        };
+        if (product_quantity[i] < 0) {
+            errs.push('Please enter a positive value!');
+        };
+        if (parseInt(product_quantity[i]) != product_quantity[i]) {
+            errs.push('Your input is not an integer!');
+        };
+        if (typeof product_tax_year != 'undefined') {
+            if (product_quantity[i] >0) {
+                if (product_tax_year[i] == '0' || product_tax_year[i] == '') {
+                    errs.push(`Please enter your tax year in box ${[i+1]}!`);
+                }
+            }
+        };
     };
-    response.redirect(`display_${product_key}.html?message=Your order has been added to the shopping cart!`);
+    if (errs.length == 0) {
+        if (typeof request.session.cart[product_key] == 'undefined') {
+            request.session.cart[product_key] = {};
+        }
+    request.session.cart[product_key]['tax_year'] = product_tax_year; // create an object in session to store tax year information specifically for tax service
+    request.session.cart[product_key]['quantity'] = product_quantity; // create an object in session to store quantity information specifically for tax service
+    response.redirect(`display_${product_key}.html?message=Your order has been added to the shopping cart! You can change your order by modifying the input box.`);
     //response.json(request.session.cart);  
     console.log(request.session.cart);
+    } else {
+        response.redirect(`display_${product_key}.html?error=${errs.join(" ; ")}`);
+    }
 });
 
 
@@ -163,7 +194,8 @@ app.post('/process_register', function(request, response, next){
 app.get('/send_invoice', function(request, response) {
     if (typeof request.cookies['userlogin'] == 'undefined') {
         response.redirect('login_page.html?message=Please login your account to finish checkout'); 
-    } else {
+    }
+    else {
         response.redirect('invoice_purchase.html');
     }
 });

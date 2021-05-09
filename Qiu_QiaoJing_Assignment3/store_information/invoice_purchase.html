@@ -140,7 +140,10 @@
     
       // Compute shipping
       var shipping = 0;
-      if (subtotal<=100) {
+      if (subtotal == 0) {
+        shipping = 0
+      }
+      else if (subtotal<=100) {
         shipping = 5
       } else if (subtotal<=1000) {
         shipping = 20
@@ -208,6 +211,7 @@
     </script>
     </tbody>
   </table>
+
   <script>
     let firstpart = document.cookie.split('=')
     let uname = firstpart[firstpart.length - 1];
@@ -286,3 +290,8 @@
 
 </body>
 </html>
+<script>
+  if (subtotal == 0) {
+              window.location.href='index.html?message=Ooops! Your cart is empty!'
+          }
+  </script>

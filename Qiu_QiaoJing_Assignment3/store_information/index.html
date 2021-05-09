@@ -1,3 +1,9 @@
+<script>
+let params = (new URL(document.location)).searchParams;
+  if (params.has('message')) {
+      alert(params.get('message'));
+  };
+</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
