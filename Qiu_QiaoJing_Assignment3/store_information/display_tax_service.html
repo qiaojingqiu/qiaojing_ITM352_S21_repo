@@ -1,12 +1,11 @@
 <script>  
-// This is the first product/service display page
   // To get client's order data
   // Reference Lab 12 - Professor Daniel Port
   let params = (new URL(document.location)).searchParams;
-  if (params.has('message')) {
+  if (params.has('message')) { // to display add to cart message
       alert(params.get('message'));
   };
-  if (params.has('error')) {
+  if (params.has('error')) { // to display error message for invalid input
       alert(params.get('error'));
   };
 
@@ -29,21 +28,6 @@
         var errs = isNonNegInt(qtyTextboxOb.value,true); //create a variable for the input number checking array
         qty_textbox_message.innerHTML = errs.join(" "); //if the input is not a positive integer, errs should not equal to an empty array; otherwise, no error message for positive integer input
     }
-    // Step3: Check client inputted tax year if it is a positive integer and matches with the updated restriction
-    function isValidYear (y,returnErrors=false) {
-        var errors = [];
-        if(y =='' && !qtyTextboxOb.value =='')  errors.push('Please enter your desired tax year!');
-        if(Number(y) != y) errors.push('Your tax year is not a number!'); 
-        if(y < 0) errors.push('Please do not enter a negative number in the tax year box!'); 
-        if(parseInt(y) != y) errors.push('Please enter an integer in the tax year box!'); 
-        return returnErrors ? errors : (errors.length == 0); 
-    }
-
-    // Step4: Display error message if the tax year is not a allowable number
-    function checkTaxYearTextbox(taxyearTextboxOb) {
-        var errs_year = isValidYear(taxyearTextboxOb.value,true);
-        tax_year_textbox_message.innerHTML = errs_year.join(" ");
-    }
 
 </script>
 
@@ -58,22 +42,23 @@
     <title>Tax Preparation</title>
     <script src="./functions.js"></script>
     <script>
+        // Reference: Professor Danial Port, Assigment 3 Code Example - Example 2: A simple shopping cart example
+        // to get session information
         var shopping_cart;
-        loadJSON('get_cart', function (response) {
+        loadJSON('get_cart', function (response) { 
             // Parsing JSON string into object
             shopping_cart = JSON.parse(response);
         });
-        console.log(shopping_cart);
     </script>
     <script src="products.js"></script>
     <script>
-        let qty = [];
+        let qty = []; 
         let tax_year = [];
         var products_info = tax_service
-        if (typeof shopping_cart['tax_service'] != 'undefined' ) {
+        if (typeof shopping_cart['tax_service'] != 'undefined' ) { // if session information regarding tax service is not undefined, client has added order into shopping cart before
                     // get the session.cart data
-                qty = shopping_cart['tax_service']['quantity']; 
-                tax_year = shopping_cart['tax_service']['tax_year'];
+                qty = shopping_cart['tax_service']['quantity'];  // get tax service quantity information from session
+                tax_year = shopping_cart['tax_service']['tax_year']; // get tax year information from session
             }
             
     </script>
@@ -89,8 +74,9 @@
         // to change navigation bar presentation based on client's login status
         if (typeof document.cookie != 'undefined' && document.cookie != ""){ 
         // cookie exists and is not detelted
+        // if client clicj on the log out button, delete cookie
            document.write(`
-            <a class="userlogin" onclick="cookieExpire ()" href="login_page.html">Log Out</a>
+            <a class="userlogin" onclick="cookieExpire ()" href="login_page.html">Log Out</a> 
         `)} else if (document.cookie == "" || typeof document.cookie == 'undefined') {
         // cookie is deleted or undefined, client is logout
             document.write(`
@@ -161,8 +147,11 @@
     var d = new Date();
     var available_tax_year = 'We can only prepare your tax return for ' + '<br>' + (d.getFullYear()-3)+ ',' + ' ' + (d.getFullYear()-2) + ',' + ' ' + (d.getFullYear()-1) + ',' + ' ' + d.getFullYear()+ ',' + ' ' +  (d.getFullYear()+1);
     // Using loop to display product information
-    // Reference: Original code is from SmartPhoneProduct2 WOD - Professor Daniel Port
-    // Referene - textbox: Lab 12 - Professor Daniel Port
+    // if client inputted order before, display previous order information
+    // client can modify order by changing value in the textbox
+    // use select box to limit tax year range
+    // Reference: Original code is from SmartPhoneProduct2 WOD - Professor Daniel Port - using for loop to generate table
+    // Referene - textbox: Lab 12 - Professor Daniel Port - create textbox to input quantity and tax year
     for (i = 0; i < products_info.length; i++) {
             document.write(`
         <h2>${(i+1)+':'+' '+products_info[i].name}</h2> 
@@ -170,7 +159,7 @@
         <p style="background-color:grey;color:white">${products_info[i].CPA_name}</p>  
         <img src="${products_info[i].image}">
         <br>`); 
-        if (qty[i] > 0 && params.has('message')) {
+        if (qty[i] > 0) {
             document.write (`
         <label>Quantity Desired:</label> 
         <input name="quantity" type="text" value = ${qty[i]} onkeyup="checkQuantityTextbox(this);">
@@ -286,7 +275,7 @@
 </html>
 
 <script>
-// delete cookie to log out
+// delete cookie to log out, make it expired in the past
 // Reference: https://www.w3schools.com/js/js_cookies.asp
 function cookieExpire () {
    document.cookie = 'userlogin=;expires = Thu, 01 Jan 1970 00:00:00 UTC; path=/;'

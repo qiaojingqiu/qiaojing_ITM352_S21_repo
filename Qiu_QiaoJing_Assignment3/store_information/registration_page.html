@@ -1,6 +1,6 @@
 <script>
     // Check Full Name textbox input is valid or not
-    // Reference: https://www.w3resource.com/javascript/form/all-letters-field.php
+    // Reference: https://www.w3resource.com/javascript/form/all-letters-field.php - using if statement to check if full name only contains letter
     function isValidFullName (fullnameTextboxOb) {  
         var letters = /^[A-Za-z]+$/;
         if(fullnameTextboxOb.value.match(letters)) {
@@ -14,7 +14,7 @@
     }
 
     // Check whether the user name is valid or not
-    // Reference https://www.w3resource.com/javascript/form/letters-numbers-field.php
+    // Reference https://www.w3resource.com/javascript/form/letters-numbers-field.php - using if statement to check if username only includes number and letter
         function isValidUserName (usernameTextboxOb) {
             var validinput = /^[0-9a-zA-Z]+$/;
             if (usernameTextboxOb.value.match(validinput)) {
@@ -26,7 +26,8 @@
             }
         }
 
-    // Check whether the confirm password is matched with the first password or not      
+    // Check whether the confirm password is matched with the first password or not     
+    // using if statement to check if password matches with the confirmed password 
     function isPasswordMatch () {
         var password = document.registration_page.password.value;
         var confirm_password = document.registration_page.confirm_password.value; 
@@ -41,7 +42,7 @@
 
 
     // Check Email textbox input is valid or not
-    // Reference: https://www.w3resource.com/javascript/form/email-validation.php
+    // Reference: https://www.w3resource.com/javascript/form/email-validation.php - using if statement to check if the email includes all essential and valid elements
     function isValidEmail (emailTextboxOb) {
         var mailformet = /^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if(emailTextboxOb.value.match(mailformet)) {
@@ -55,8 +56,6 @@
     
 </script>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,12 +65,7 @@
     <title>New Client</title>
 </head>
 <body>
-    <script>
-    // To keep client's input in the query
-        document.write(`
-    <form name="registration_page" action="process_register${location.search}" method="POST">
-        `)
-    </script>  
+    <form name="registration_page" action="process_register" method="POST">
 
     <br>
     <!--Create a Top Navigation Bar-->
@@ -80,11 +74,11 @@
         <a class="homepage" href="index.html">Home</a>
     <script>
         // to change navigation bar presentation based on client's login status
-        if (typeof document.cookie != 'undefined' && document.cookie != ""){ 
+        if (typeof document.cookie != 'undefined' && document.cookie != ""){ // if cookie is defined, user is login before
         // cookie exists and is not detelted
             document.write(`
             <a class="userlogin" onclick="cookieExpire ()">Log Out</a>
-        `)} else if (document.cookie == "" || typeof document.cookie == 'undefined') {
+        `)} else if (document.cookie == "" || typeof document.cookie == 'undefined') { // if cookie is undefined, user did not login
         // cookie is deleted or undefined, client is logout
             document.write(`
             <a class="userlogin" href="login_page.html">Login My Account</a>
@@ -101,7 +95,7 @@
     <h1>Tax Preparation Company</h1> 
     <script>
     // split username from the cookie
-    // Reference: https://www.geeksforgeeks.org/how-to-get-value-of-a-string-after-last-slash-in-javascript/
+    // Reference: https://www.geeksforgeeks.org/how-to-get-value-of-a-string-after-last-slash-in-javascript/ - to split username from cookie information if there is cookie
     let firstpart = document.cookie.split('=')
     let uname = firstpart[firstpart.length - 1];
     // modify registration instruction based on client's login status
@@ -201,7 +195,7 @@
 
 <script>
 // delete cookie to log out
-// Reference: https://www.w3schools.com/js/js_cookies.asp
+// Reference: https://www.w3schools.com/js/js_cookies.asp - to set cookie expired in the past 
 function cookieExpire () {
    document.cookie = 'userlogin=;expires = Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
    window.location.reload();

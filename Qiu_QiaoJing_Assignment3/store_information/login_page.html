@@ -1,4 +1,6 @@
 <script>
+// To get message from the query
+// Reference Lab 12 - Professor Daniel Port - using params to get information from query
     let params = (new URL(document.location)).searchParams;
     if (params.has('message')) {
         alert(params.get('message'));
@@ -22,11 +24,11 @@
     <a class="homepage" href="index.html">Home</a>
 <script>
 // to change navigation bar presentation based on client's login status
-if (typeof document.cookie != 'undefined' && document.cookie != ""){ 
+if (typeof document.cookie != 'undefined' && document.cookie != ""){ // cookie exists, client is login
 // cookie exists and is not detelted
    document.write(`
     <a class="userlogin" onclick="cookieExpire ()" href="login_page.html">Log Out</a>
-`)} else if (document.cookie == "" || typeof document.cookie == 'undefined') {
+`)} else if (document.cookie == "" || typeof document.cookie == 'undefined') { // cookie doesn't exist, client is logout
 // cookie is deleted or undefined, client is logout
     document.write(`
     <a class="userlogin" href="login_page.html">Login My Account</a>
@@ -41,15 +43,13 @@ if (typeof document.cookie != 'undefined' && document.cookie != ""){
 </div>
 
 <h1>Tax Preparation Company</h1> 
-<script>
-    // To keep client's input in query
-    // Reference Professor Daniel Port Screencast:https://www.youtube.com/watch?v=cJxLxCzL-0M
-     document.write(`<form name="login_page" action="process_login${location.search}" method="POST">`)
-</script>  
+
+<form name="login_page" action="process_login" method="POST">
+ 
     <!--Ask client to login-->
 <script>
     // split username from the cookie
-    // Reference: https://www.geeksforgeeks.org/how-to-get-value-of-a-string-after-last-slash-in-javascript/
+    // Reference: https://www.geeksforgeeks.org/how-to-get-value-of-a-string-after-last-slash-in-javascript/ - to split username from cookie information
     let firstpart = document.cookie.split('=')
     let uname = firstpart[firstpart.length - 1];
     if (typeof document.cookie != 'undefined' && document.cookie != "") {
@@ -77,16 +77,10 @@ if (typeof document.cookie != 'undefined' && document.cookie != ""){
     </div>
     <br>
 </form>    
-<script>
-    // To keep client's input in query
-    // Link to registration page
-    document.write(`
     <p>Don't have an account?</p>
-    <a href = "registration_page.html${location.search}">
+    <a href = "registration_page.html">
     <button style="font-size: 15px;"><b>Create an account</b></button>
     </a>
-    `)
-</script>  
 </body>
 </html>
 
@@ -135,7 +129,7 @@ if (typeof document.cookie != 'undefined' && document.cookie != ""){
 let params = (new URL(document.location)).searchParams;
 // To keep client's input in query, this query will help the calculation in the invoice 
 // Client cannot login, display error message
-// Reference Professor Daniel Port Screencast:https://www.youtube.com/watch?v=cJxLxCzL-0M
+// Reference Professor Daniel Port Screencast:https://www.youtube.com/watch?v=cJxLxCzL-0M - using params to get error message from the query
 window.onload = function () {
         if (params.has('uname_notexist')) {
             document.getElementById("err_message").innerText = "Your username not exist, please create an account";
@@ -144,7 +138,7 @@ window.onload = function () {
         }
     }
 // delete cookie to log out
-// Reference: https://www.w3schools.com/js/js_cookies.asp
+// Reference: https://www.w3schools.com/js/js_cookies.asp - to set the cookie to expire in the past to delete cookie
 function cookieExpire () {
    document.cookie = 'userlogin=;expires = Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
    window.location.reload();

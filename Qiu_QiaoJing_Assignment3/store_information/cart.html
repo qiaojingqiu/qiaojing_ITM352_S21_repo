@@ -108,7 +108,7 @@
     }
 
     if (typeof shopping_cart['consultant'] != 'undefined') {
-        for (i=1; i<= consultant.length; i++) {
+        for (i=0; i< consultant.length; i++) {
             if (shopping_cart['consultant']['quantity'][i]>0) {
                 document.write(`
     <tr>

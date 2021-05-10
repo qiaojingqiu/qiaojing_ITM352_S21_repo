@@ -1,9 +1,3 @@
-<script>
-  // To get client's order data
-  // Reference Lab 12 - Professor Daniel Port
-  let params = (new URL(document.location)).searchParams;
-</script>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,14 +10,16 @@
 </head>
 <body>
     <script src="products.js">
-        //get product information
+        //get product information from a javascript file
     </script>
     <script src="./functions.js"></script>
     <script>
+      // Reference: Professor Danial Port, Assigment 3 Code Example - Example 2: A simple shopping cart example
+      // to get session information from the server
         var shopping_cart;
         loadJSON('get_cart', function (response) {
             // Parsing JSON string into object
-            shopping_cart = JSON.parse(response);
+            shopping_cart = JSON.parse(response); // store session information into a variable
         });
     </script>
 
@@ -37,37 +33,15 @@
       </tr>
     
     <script>
-    // Check client's input, make sure the final input should be a positive integer
-    // Check input number if it is an positive integet
-    // Reference - Check Positive Integet: Lab 11 - Professor Daniel Port
-    function isNonNegInt(q,returnErrors=false) {
-        if(q =='') q=0; // Client should not receive any error message if there is no input in the textbox
-        var errors = []; // assume no errors at first
-        if(Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
-        if(q < 0) errors.push('Negative value!'); // Check if it is non-negative
-        if(parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
-        return returnErrors ? errors : (errors.length == 0); // If there is no error message in the array, the length should be 0, which returns back to true, the input is a positive integer
-    };
-
-    // Check client inputted tax year if it is a positive integer and matches with the updated restriction
-    function isValidYear (y,returnErrors=false) {
-        var errors = [];
-        if(y =='')  errors.push('Please enter your desired tax year!');
-        if(Number(y) != y) errors.push('Your tax year is not a number!'); 
-        if(y < 0) errors.push('Please do not enter a negative number in the tax year box!'); 
-        if(parseInt(y) != y) errors.push('Please enter an integer in the tax year box!'); 
-        return returnErrors ? errors : (errors.length == 0); 
-    }
-    
     // set beginning subtotal to be 0
       subtotal = 0;
     // automative adding row function - for tax preparation
-    // Reference Lab 12 - Professor Daniel Port
-      if (typeof shopping_cart['tax_service'] != 'undefined') {
+    // Reference Lab 12 - Professor Daniel Port - using if statement and for loop to generate table for tax service
+      if (typeof shopping_cart['tax_service'] != 'undefined') { // if tax service session is undefined, client did not place order about this service, skip this table
       for (i=0; i < tax_service.length; i++) {
         if (shopping_cart['tax_service']['quantity'][i]==0) continue; // Skip product with 0 quantity
         else { // Output product information only when the input is a valid number
-        extended_price_tax = tax_service[i].price * shopping_cart['tax_service']['quantity'][i]; // Calculate extended price
+        extended_price_tax = tax_service[i].price * shopping_cart['tax_service']['quantity'][i]; // Calculate extended price for tax service
         subtotal += extended_price_tax; // Create a running subtotal
         document.write(`  
       <tr>
@@ -81,14 +55,13 @@
       }
     }
   
-
     // automative adding row function - for CPA exam preparation
-    // Reference Lab 12 - Professor Daniel Port
-      if (typeof shopping_cart['CPAexamreview'] != 'undefined') {
+    // Reference Lab 12 - Professor Daniel Port - using if statement and for loop to generate table for exam review
+      if (typeof shopping_cart['CPAexamreview'] != 'undefined') { // if exam review session is undefined, client did not order this service, skip this table; else continue creating a table
       for (i=0; i < CPAexamreview.length; i++) {
         if (shopping_cart['CPAexamreview']['quantity'][i]==0) continue; // Skip product with 0 quantity
           else {
-          extended_price_cpa = CPAexamreview[i].price * shopping_cart['CPAexamreview']['quantity'][i]; // Calculate extended price
+          extended_price_cpa = CPAexamreview[i].price * shopping_cart['CPAexamreview']['quantity'][i]; // Calculate extended price fpr cpa exam review
           subtotal += extended_price_cpa; // Create a running subtotal
         document.write(`  
       <tr>
@@ -102,11 +75,13 @@
       }
     }
   
-      if (typeof shopping_cart['tutorial'] != 'undefined') {
+    // automative adding row function - for tutorial
+    // Reference Lab 12 - Professor Daniel Port - using if statement and for loop to generate table for tutorial
+      if (typeof shopping_cart['tutorial'] != 'undefined') { // if tutorial session is undefined, client did not order this service, skip this table; else continue creating a table
       for (i=0; i < tutorial.length; i++) {
         if (shopping_cart['tutorial']['quantity'][i]==0) continue; // Skip product with 0 quantity
         else {
-        extended_price_tutorial = tutorial[i].price * shopping_cart['tutorial']['quantity'][i]; // Calculate extended price
+        extended_price_tutorial = tutorial[i].price * shopping_cart['tutorial']['quantity'][i]; // Calculate extended price for tutorial
         subtotal += extended_price_tutorial; // Create a running subtotal
         document.write(`  
       <tr>
@@ -120,11 +95,13 @@
       }
     }
   
-      if (typeof shopping_cart['consultant'] != 'undefined') {
+    // automative adding row function - for consultant
+    // Reference Lab 12 - Professor Daniel Port - using if statement and for loop to generate table for consultant
+      if (typeof shopping_cart['consultant'] != 'undefined') { // if consultant session is undefined, client did not order this service, skip this table; else continue creating a table
       for (i=0; i < consultant.length; i++) {
         if (shopping_cart['consultant']['quantity'][i]==0) continue; // Skip product with 0 quantity
         else {
-        extended_price_consultant = consultant[i].price * shopping_cart['consultant']['quantity'][i]; // Calculate extended price
+        extended_price_consultant = consultant[i].price * shopping_cart['consultant']['quantity'][i]; // Calculate extended price for consultant
         subtotal += extended_price_consultant; // Create a running subtotal
         document.write(`  
       <tr>
@@ -139,11 +116,11 @@
     }
     
       // Compute shipping
+      // using if statement to create different shipping fee standards
       var shipping = 0;
-      if (subtotal == 0) {
+      if (subtotal == 0) { // if client did not order anything, not shipping fee should be added in
         shipping = 0
-      }
-      else if (subtotal<=100) {
+      } else if (subtotal<=100) {
         shipping = 5
       } else if (subtotal<=1000) {
         shipping = 20
@@ -152,24 +129,24 @@
       }
 
       // Compute tax
-      // Reference Invoice 2 - Professor Daniel Port
+      // Reference Invoice 2 - Professor Daniel Port - using this equation to calculate tax
       var tax_rate = 0.045;
-          var tax = subtotal * tax_rate;
+      var tax = subtotal * tax_rate;
 
       // Compute grand total
-      // Reference Invoice 2 - Professor Daniel Port
-          var total = tax + subtotal + shipping;
+      // Reference Invoice 2 - Professor Daniel Port - using this equation to calculate total cost
+      var total = tax + subtotal + shipping;
 
     </script> 
 
-      <tr>
+    <tr>
         <td colspan="6" width="100%">&nbsp;</td>
-      </tr>
+    </tr>
 
 
      <script>
        // write subtotal amount
-       // Reference Invoice 2 - Professor Daniel Port
+       // Reference Invoice 2 - Professor Daniel Port - to display subtotal in the table with 2 decimal places
     document.write(`
       <tr>
         <td style="text-align: center;" colspan="3" width="50%">Sub total</td>
@@ -179,7 +156,7 @@
     </script> 
     <script> 
       // write tax amount
-      // Reference Invoice 2 - Professor Daniel Port
+      // Reference Invoice 2 - Professor Daniel Port - to display tax in the table with 2 decimal places
     document.write(`
       <tr>
         <td style="text-align: center;" colspan="3" width="67%"><span>Tax @ ${100*tax_rate}%</span></td>
@@ -190,7 +167,7 @@
 
     <script>
       // write shipping fee
-      // Reference Invoice 2 - Professor Daniel Port
+      // Reference Invoice 2 - Professor Daniel Port - to display shipping fee in the table with 2 decimal places
       document.write(`
         <tr>
           <td style="text-align: center;" colspan="3" width="50%">Shipping Fee</td>
@@ -201,7 +178,7 @@
 
     <script>
       // write total charge
-      // Reference Invoice 2 - Professor Daniel Port
+      // Reference Invoice 2 - Professor Daniel Port - to display total in the table with 2 decimal places
     document.write(`
       <tr>
         <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
@@ -213,6 +190,8 @@
   </table>
 
   <script>
+    // split username from the cookie
+    // Reference: https://www.geeksforgeeks.org/how-to-get-value-of-a-string-after-last-slash-in-javascript/ - use this way to split username from the cookie information
     let firstpart = document.cookie.split('=')
     let uname = firstpart[firstpart.length - 1];
     // show client's user name and purchase information
@@ -220,8 +199,9 @@
   </script>
   <ul>
   <script>
+    // using list to display order information
     // skip any 0 quantity item - Tax Preparation
-    if (typeof shopping_cart['tax_service'] != 'undefined') {
+    if (typeof shopping_cart['tax_service'] != 'undefined') { // if product's session is undefined, client did not order that product, skip this step
     for (i=0; i<tax_service.length; i++) {
       if (shopping_cart['tax_service']['quantity'][i] == 0) continue;
       document.write(`
@@ -229,8 +209,10 @@
       `)
     }
   }
-      // skip any 0 quantity item - CPA Exam
-    if (typeof shopping_cart['CPAexamreview'] != 'undefined') {
+
+    // using list to display order information
+    // skip any 0 quantity item - CPA Exam
+    if (typeof shopping_cart['CPAexamreview'] != 'undefined') { // if product's session is undefined, client did not order that product, skip this step
     for (i=0; i<CPAexamreview.length; i++) {
     if (shopping_cart['CPAexamreview']['quantity'][i] == 0) continue;
     document.write(`
@@ -238,8 +220,10 @@
     `)
   }
 }
-      // skip any 0 quantity item - Tutorial
-    if (typeof shopping_cart['tutorial'] != 'undefined') {
+
+    // using list to display order information
+    // skip any 0 quantity item - Tutorial
+    if (typeof shopping_cart['tutorial'] != 'undefined') { // if product's session is undefined, client did not order that product, skip this step
     for (i=0; i<tutorial.length; i++) {
     if (shopping_cart['tutorial']['quantity'][i] == 0) continue;
     document.write(`
@@ -247,8 +231,10 @@
     `)
   }
 }
-      // skip any 0 quantity item - Consultant
-    if (typeof shopping_cart['consultant'] != 'undefined') {
+
+    // using list to display order information
+    // skip any 0 quantity item - Consultant
+    if (typeof shopping_cart['consultant'] != 'undefined') { // if product's session is undefined, client did not order that product, skip this step
     for (i=0; i<consultant.length; i++) {
     if (shopping_cart['consultant']['quantity'][i] == 0) continue;
     document.write(`
@@ -291,7 +277,8 @@
 </body>
 </html>
 <script>
+  // using if statement to check if client has 0 quantity for all products, which caused 0 subtotal
   if (subtotal == 0) {
-              window.location.href='index.html?message=Ooops! Your cart is empty!'
+              window.location.href='index.html?message=Ooops! Your cart is empty!' // if client did not order, redirect back to index page with error message
           }
   </script>

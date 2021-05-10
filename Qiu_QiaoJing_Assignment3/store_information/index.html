@@ -1,7 +1,10 @@
 <script>
+// This is the first product/service display page
+// To get client's order data
+// Reference Lab 12 - Professor Daniel Port - using params to get information from query
 let params = (new URL(document.location)).searchParams;
   if (params.has('message')) {
-      alert(params.get('message'));
+      alert(params.get('message')); // display message (if client has 0 quantity for every product, page will be redirected back to index page with a message)
   };
 </script>
 <!DOCTYPE html>
@@ -15,6 +18,7 @@ let params = (new URL(document.location)).searchParams;
 <body>
 <br>
     <!--Create a Top Navigation Bar-->
+    <!--Client can use navigation bar to go to different webpages and check the login status-->
     <!--Reference: https://www.w3schools.com/howto/howto_js_topnav.asp-->
 <div class="topnavbar">
     <a class="homepage" href="index.html">Home</a>
@@ -38,12 +42,11 @@ let params = (new URL(document.location)).searchParams;
 <a class="cart" href="cart.html">My Shopping Cart</a>
 </div>
 
-
-    <!--Creat an index page, easy to open the webpage-->
+<!--Creat an index page, easy to open the webpage-->
 <script>
 // change welcome based on client login status
 // split username from the cookie
-// Reference: https://www.geeksforgeeks.org/how-to-get-value-of-a-string-after-last-slash-in-javascript/
+// Reference: https://www.geeksforgeeks.org/how-to-get-value-of-a-string-after-last-slash-in-javascript/ - to split username information from the cookie information
     let firstpart = document.cookie.split('=')
     let uname = firstpart[firstpart.length - 1];
     if (document.cookie == "" || typeof document.cookie == 'undefined') {
@@ -60,7 +63,7 @@ let params = (new URL(document.location)).searchParams;
     <a href="./display.html">
     <img src='./image/website_background.jpg'>
     </a>
-    <h2>Click the image to enter our main page</h2>
+    <h2>You can use the navigation bar to go to different pages, or click the image to enter our main page</h2>
 </body>
 </html>
 

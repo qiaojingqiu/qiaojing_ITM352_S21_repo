@@ -1,3 +1,5 @@
+// Reference: Professor Danial Port, Assigment 3 Code Example - Example 1: A simple multi-page products navigation and display
+// use this server to request for session information
 // This function asks the server for a "service" and converts the response to text. 
 function loadJSON(service, callback) {   
     var xobj = new XMLHttpRequest();
