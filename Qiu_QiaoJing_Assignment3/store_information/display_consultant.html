@@ -1,3 +1,12 @@
+<script>
+    // delete cookie to log out
+    // Reference: https://www.w3schools.com/js/js_cookies.asp
+    function cookieExpire () {
+       document.cookie = 'userlogin=;expires = Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+       window.location.reload();
+       return;
+    }
+</script>
 <script>  
 // This is the first product/service display page
   // To get client's order data
@@ -232,13 +241,3 @@
 
 </body>
 </html>
-
-<script>
-// delete cookie to log out
-// Reference: https://www.w3schools.com/js/js_cookies.asp
-function cookieExpire () {
-   document.cookie = 'userlogin=;expires = Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-   window.location.reload();
-   return;
-}
-</script>

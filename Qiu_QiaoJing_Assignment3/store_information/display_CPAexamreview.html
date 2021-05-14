@@ -1,3 +1,12 @@
+<script>
+    // delete cookie to log out
+    // Reference: https://www.w3schools.com/js/js_cookies.asp
+    function cookieExpire () {
+       document.cookie = 'userlogin=;expires = Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+       window.location.reload();
+       return;
+    }
+</script>
 <script>  
 // To get client's order data
 // Reference Lab 12 - Professor Daniel Port - using params to get information from query
@@ -27,7 +36,6 @@
         var errs = isNonNegInt(qtyTextboxOb.value,true); //create a variable for the input number checking array
         qty_textbox_message.innerHTML = errs.join(" "); //if the input is not a positive integer, errs should not equal to an empty array; otherwise, no error message for positive integer input
     }
-
 </script>
 
 <!DOCTYPE html>
@@ -235,13 +243,3 @@
 
 </body>
 </html>
-
-<script>
-// delete cookie to log out
-// Reference: https://www.w3schools.com/js/js_cookies.asp
-function cookieExpire () {
-   document.cookie = 'userlogin=;expires = Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-   window.location.reload();
-   return;
-}
-</script>

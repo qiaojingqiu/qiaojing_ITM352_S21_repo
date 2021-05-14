@@ -195,6 +195,8 @@ app.get('/send_invoice', function(request, response) { // use this router to che
 }});
 
 app.get('/complete_order', function(request, response) {
+    // Reference: Professor Daniel Port - Assignment 3 Code Example - Example 3: Creating an invoice to both print and email (also example of node mailer component) example - create a running invoice string
+    // Use this for emailing invoice
     var invoice_str = `Thank your for your order.<br><ul>`;
     var shopping_cart = request.session.cart;
        
