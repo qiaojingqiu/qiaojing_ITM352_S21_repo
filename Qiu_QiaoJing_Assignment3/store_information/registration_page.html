@@ -1,4 +1,13 @@
 <script>
+    // delete cookie to log out
+    // Reference: https://www.w3schools.com/js/js_cookies.asp - to set cookie expired in the past 
+    function cookieExpire() {
+       document.cookie = 'userlogin=;expires = Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+       window.location.reload();
+       return;
+    }
+</script>
+<script>
     // Check Full Name textbox input is valid or not
     // Reference: https://www.w3resource.com/javascript/form/all-letters-field.php - using if statement to check if full name only contains letter
     function isValidFullName (fullnameTextboxOb) {  
@@ -193,14 +202,5 @@
     }
 </style>
 
-<script>
-// delete cookie to log out
-// Reference: https://www.w3schools.com/js/js_cookies.asp - to set cookie expired in the past 
-function cookieExpire () {
-   document.cookie = 'userlogin=;expires = Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-   window.location.reload();
-   return;
-}
-</script>
 
 

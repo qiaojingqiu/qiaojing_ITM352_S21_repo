@@ -5,6 +5,13 @@
     if (params.has('message')) {
         alert(params.get('message'));
     }
+// delete cookie to log out
+// Reference: https://www.w3schools.com/js/js_cookies.asp - to set the cookie to expire in the past to delete cookie
+function cookieExpire() {
+   document.cookie = 'userlogin=;expires = Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+   window.location.reload();
+   return;
+}
 </script>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,11 +34,11 @@
 if (typeof document.cookie != 'undefined' && document.cookie != ""){ // cookie exists, client is login
 // cookie exists and is not detelted
    document.write(`
-    <a class="userlogin" onclick="cookieExpire ()" href="login_page.html">Log Out</a>
+    <a class="userlogin">You Are Login</a>
 `)} else if (document.cookie == "" || typeof document.cookie == 'undefined') { // cookie doesn't exist, client is logout
 // cookie is deleted or undefined, client is logout
     document.write(`
-    <a class="userlogin" href="login_page.html">Login My Account</a>
+    <a class="userlogin">Login My Account</a>
 `)};
 </script>
     <a class="userregistration" href="registration_page.html">Create An Account</a>
@@ -81,6 +88,8 @@ if (typeof document.cookie != 'undefined' && document.cookie != ""){ // cookie e
     <a href = "registration_page.html">
     <button style="font-size: 15px;"><b>Create an account</b></button>
     </a>
+    <br><br>
+    <button onclick="cookieExpire()" style="font-size: 15px;"><b>Log Out</b></button>
 </body>
 </html>
 
@@ -137,11 +146,4 @@ window.onload = function () {
             document.getElementById("err_message").innerText = "You password is wrong, please try again";
         }
     }
-// delete cookie to log out
-// Reference: https://www.w3schools.com/js/js_cookies.asp - to set the cookie to expire in the past to delete cookie
-function cookieExpire () {
-   document.cookie = 'userlogin=;expires = Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-   window.location.reload();
-   return;
-}
 </script>

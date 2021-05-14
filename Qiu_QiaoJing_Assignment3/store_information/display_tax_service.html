@@ -76,7 +76,7 @@
         // cookie exists and is not detelted
         // if client clicj on the log out button, delete cookie
            document.write(`
-            <a class="userlogin" onclick="cookieExpire ()" href="login_page.html">Log Out</a> 
+            <a class="userlogin" onclick="cookieExpire ()">Log Out</a> 
         `)} else if (document.cookie == "" || typeof document.cookie == 'undefined') {
         // cookie is deleted or undefined, client is logout
             document.write(`

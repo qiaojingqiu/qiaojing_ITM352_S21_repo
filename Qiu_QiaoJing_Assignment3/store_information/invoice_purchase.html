@@ -101,13 +101,13 @@
       for (i=0; i < consultant.length; i++) {
         if (shopping_cart['consultant']['quantity'][i]==0) continue; // Skip product with 0 quantity
         else {
-        extended_price_consultant = consultant[i].price * shopping_cart['consultant']['quantity'][i]; // Calculate extended price for consultant
+        extended_price_consultant = consultant[i].hourlyprice * shopping_cart['consultant']['quantity'][i]; // Calculate extended price for consultant
         subtotal += extended_price_consultant; // Create a running subtotal
         document.write(`  
       <tr>
         <td width="33%">Consultant: ${consultant[i].name}</td>
         <td align="center" width="10%">${shopping_cart['consultant']['quantity'][i]}</td>
-        <td align="center" width="10%">$${consultant[i].price.toFixed(2)}</td>
+        <td align="center" width="10%">$${consultant[i].hourlyprice.toFixed(2)}</td>
         <td align="center" width="15%">$${extended_price_consultant.toFixed(2)}</td>
       </tr>
               `); 
@@ -195,7 +195,7 @@
     let firstpart = document.cookie.split('=')
     let uname = firstpart[firstpart.length - 1];
     // show client's user name and purchase information
-    document.write(`<p>Aloha, ${uname}! <br>Thank you for selecting our company, this is your invoice. <br>Your order is:</p>`)
+    document.write(`<p>Aloha, ${uname}! <br>Thank you for selecting our company, this is your invoice. <br>Please click <b>Complete My Order</b> button to finish your order. Your invoice will be sent to your email after clicking this button.<br>Your order is:</p>`)
   </script>
   <ul>
   <script>
@@ -246,6 +246,9 @@
   </ul>
 
   <p>If your have any question, please call us at (808)-123-4567. </p>
+  <form action="complete_order" method="GET">
+    <button style="font-size: 15px;">Complete My Order</button>
+  </form>
 <style>
     th {
         font-size: 18px;
@@ -270,6 +273,7 @@
     }
     body {
         background-image: url(./image/website_background.jpg);
+        text-align: center;
     }
 </style>
 

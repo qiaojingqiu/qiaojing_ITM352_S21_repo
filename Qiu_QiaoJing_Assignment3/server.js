@@ -191,33 +191,83 @@ app.get('/send_invoice', function(request, response) { // use this router to che
         response.redirect('login_page.html?message=Please login your account to finish checkout'); 
     }
     else { // existed cookie, client is login
-        user_email = user_info[request.cookies['userlogin']]['email']; // store user's email into a variable
+            response.redirect('invoice_purchase.html?message=This is your invoice!'); // send out invoice
+}});
+
+app.get('/complete_order', function(request, response) {
+    var invoice_str = `Thank your for your order.<br><ul>`;
+    var shopping_cart = request.session.cart;
+       
+        // using list to display order information
+        // skip any 0 quantity item - Tax Preparation
+        if (typeof shopping_cart['tax_service'] != 'undefined') { // if product's session is undefined, client did not order that product, skip this step
+            for (i=0; i<shopping_cart['tax_service']['quantity'].length; i++) {
+            if (shopping_cart['tax_service']['quantity'][i] > 0) {
+                invoice_str += `<li>${shopping_cart['tax_service']['tax_year'][i]}: ${shopping_cart['tax_service']['quantity'][i]} - Tax Service</li>`
+            }
+            }
+        }
+    
+        // using list to display order information
+        // skip any 0 quantity item - CPA Exam
+        if (typeof shopping_cart['CPAexamreview'] != 'undefined') { // if product's session is undefined, client did not order that product, skip this step
+        for (i=0; i<shopping_cart['CPAexamreview']['quantity'].length; i++) {
+        if (shopping_cart['CPAexamreview']['quantity'][i] > 0) {
+            invoice_str += `<li>CPA Exam Review: ${shopping_cart['CPAexamreview']['quantity'][i]} - CPA Exam Review</li>`
+        }
+      }
+    }
+    
+        // using list to display order information
+        // skip any 0 quantity item - Tutorial
+        if (typeof shopping_cart['tutorial'] != 'undefined') { // if product's session is undefined, client did not order that product, skip this step
+        for (i=0; i<shopping_cart['tutorial']['quantity'].length; i++) {
+        if (shopping_cart['tutorial']['quantity'][i] > 0) {
+            invoice_str += `<li>Tutorial: ${shopping_cart['tutorial']['quantity'][i]} - Tutorial</li>`
+        }
+      }
+    }
+    
+        // using list to display order information
+        // skip any 0 quantity item - Consultant
+        if (typeof shopping_cart['consultant'] != 'undefined') { // if product's session is undefined, client did not order that product, skip this step
+        for (i=0; i<shopping_cart['consultant']['quantity'].length; i++) {
+        if (shopping_cart['consultant']['quantity'][i] > 0) {
+            invoice_str += `<li>Consultant Service: ${shopping_cart['consultant']['quantity'][i]} - Consultant</li>`
+        }
+      }
+    }
+        invoice_str += `</ul>`
+    console.log(invoice_str);
+
+    ser_email = user_info[request.cookies['userlogin']]['email']; // store user's email into a variable
 // Set up mail server. Only will work on UH Network due to security restrictions
 // Reference: Professor Daniel Port - Assignment 3 Code Example - Example 3: Creating an invoice to both print and email (also example of node mailer component) example
 // to use node mailer to send email inside the UH network
-        var transporter = nodemailer.createTransport({
-            host: "mail.hawaii.edu",
-            port: 25,
-            secure: false, // use TLS
-            tls: {
-            // do not fail on invalid certs
-            rejectUnauthorized: false
-            }
-        });
-
-        var user_email = user_info[request.cookies['userlogin']]['email']; // store user's email into a variable
-        var mailOptions = {
-            from: 'qiaojing@hawaii.edu',
-            to: user_email,
-            subject: 'Your invoice from Tax Preparation Company',
-            html: invoice_purchase.html
-        };
-
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-        response.redirect('invoice_purchase.html?message=Error exists, we could not email your invoice!'); 
-        } else {
-            response.redirect('invoice_purchase.html?message=Everything all set! Your invoice is emailed to you!'); // send out invoice
+    var transporter = nodemailer.createTransport({
+        host: "mail.hawaii.edu",
+        port: 25,
+        secure: false, // use TLS
+        tls: {
+        // do not fail on invalid certs
+        rejectUnauthorized: false
         }
     });
-}});
+
+    var user_email = user_info[request.cookies['userlogin']]['email']; // store user's email into a variable
+    var mailOptions = {
+        from: 'qiaojing@hawaii.edu',
+        to: user_email,
+        subject: 'Your invoice from Tax Preparation Company',
+        html: invoice_str
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+        response.redirect('index.html?message=Error exists, we could not email your invoice!'); 
+    } else {
+        response.redirect('index.html?message=Everything all set! Your invoice is emailed to you!');
+    }})
+    request.session.destroy();
+    response.clearCookie('userlogin');
+});
