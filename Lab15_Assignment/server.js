@@ -51,7 +51,7 @@ app.get('/process_submit', function(request, response, next) {
     response.redirect('login_page.html?'+ qs.stringify(request.query))
 });
 
-// process login information
+// process login information 
 // Reference Professor Daniel Port Screencast:https://www.youtube.com/watch?v=cJxLxCzL-0M
 app.post('/process_login', function(request, response, next){
     console.log(request.body)
